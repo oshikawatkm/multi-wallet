@@ -1,0 +1,15 @@
+{
+  "name": "multi_wallet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wallet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oshikawa Takumu",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "indy-request-js": "github:oshikawatkm/indy-request-js#main"
+  }
+}

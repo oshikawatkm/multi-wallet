@@ -1,0 +1,6 @@
+{
+  "agent": {
+    "host": "localhost",
+    "port": "8021"
+  }
+}
