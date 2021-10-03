@@ -47,15 +47,15 @@ class HLindyDidObject {
     return dids.results[0].did;
   }
 
-  async getSchemaId(schemaName){
-    let schema = new Schema(this.agent);
+  async getSchemaId(agent, schemaName){
+    let schema = new Schema(agent);
     let schemaList = await schema.created(schemaName)
     console.log(schemaList)
     return schemaList.result.schema_ids[0];
   }
 
-  async getCredDefId(schemaName) {
-    let credentialDefinition = new CredentialDefinition(this.agent);
+  async getCredDefId(agent, schemaName) {
+    let credentialDefinition = new CredentialDefinition(agent);
     let credentialDefinitionList = await credentialDefinition.created(schemaName);
     return credentialDefinitionList.results.credential_definition_ids[0];
   }

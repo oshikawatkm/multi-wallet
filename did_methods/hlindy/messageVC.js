@@ -50,8 +50,8 @@ class HLindyRequestVC extends HLindyDidObject {
     let url = new URL(endpoint);
     let theirAgent = new Agent('http', url.hostname, url.port)
     let issueCredential = new IssueCredentialV2(theirAgent);
-    let schema_id = await this.getSchemaId({schema_name: 'message'});
-    let cred_def_id = await this.getCredDefId({schema_name: 'message'});
+    let schema_id = await this.getSchemaId(theirAgent, {schema_name: 'message'});
+    let cred_def_id = await this.getCredDefId(theirAgent, {schema_name: 'message'});
 
     let body = {
       auto_remove: true,
