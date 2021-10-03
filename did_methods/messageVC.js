@@ -1,23 +1,23 @@
-const { HLindyRequestVC } = require('./hlindy/requestVC');
+const { HLindyRequestVC } = require('./hlindy/messageVC');
 const { SidetreeVC } = require('./sidetree/vc');
 const { UportVC } = require('./uport/vc');
 
-class RequestVCMethod {
+class MessageVCMethod {
 
   constructor(didMethod, host, port) {
     this.vc = this.load_vc_method(didMethod, host, port);
   }
 
-  async getRequestVCList() {
-    return this.vc.getRequests();
+  async getList() {
+    return this.vc.getList();
   }
 
-  async issueRequestVC(bodyhash) {
-    return this.vc.issueRequestVC(bodyhash);
-  }
+  // async issueVC(bodyhash) {
+  //   return this.vc.issueRequestVC(bodyhash);
+  // }
 
-  async sendRequestVC(athorsDid, bodyhash, hashAlgorism) {
-    return this.vc.sendRequestVC(athorsDid, bodyhash, hashAlgorism);
+  async issue(athorsDid, bodyhash, hashAlgorism) {
+    return this.vc.issue(athorsDid, bodyhash, hashAlgorism);
   }
 
   async verify(params) {
@@ -28,12 +28,12 @@ class RequestVCMethod {
     return this.vc.presentProof(params);
   }
 
-  async getRequestVC() {
+  async get() {
 
   }
 
-  async deleteRequestVC() {
-    return this.vc.deleteRequestVC();
+  async delete() {
+    return this.vc.delete();
   }
 
   // private
@@ -58,4 +58,4 @@ class RequestVCMethod {
 
 }
 
-module.exports.RequestVCMethod = RequestVCMethod;
+module.exports.MessageVCMethod = MessageVCMethod;

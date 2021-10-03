@@ -9,16 +9,16 @@ class DeviceVCMethod {
     this.vc = this.load_vc_method(didMethod, host, port);
   }
 
-  async getDeviceVCList() {
-    return this.vc.getDevices();
+  async getList() {
+    return this.vc.get();
   }
 
-  async issueDeviceVC(name, deviceId, registerAt) {
-    return this.vc.issueDeviceVC(name, deviceId, registerAt);
-  }
-
-  async sendDeviceVC(athorsDid, toHost, toPort, name, deviceId, registerAt) {
-    return this.vc.sendDeviceVC(athorsDid, toHost, toPort, name, deviceId, registerAt);
+  // async issueDeviceVC(name, deviceId, registerAt) {
+  //   return this.vc.issueVC(name, deviceId, registerAt);
+  // }
+  
+  async issue(athorsDid, toHost, toPort, name, deviceId, registerAt) {
+    return this.vc.issue(athorsDid, toHost, toPort, name, deviceId, registerAt);
   }
 
   async verify(params) {
@@ -29,12 +29,12 @@ class DeviceVCMethod {
     return this.vc.presentProof(params);
   }
 
-  async getDeviceVC() {
+  async get() {
 
   }
 
-  async deleteDeviceVC() {
-    return this.vc.deleteDeviceVC();
+  async delete() {
+    return this.vc.delete();
   }
 
   // private

@@ -9,28 +9,28 @@ class StreamVCMethod {
   }
 
 
-  async getStreamVCList() {
-    return this.vc.getStreams();
+  async getList() {
+    return this.vc.getList();
   }
 
 
-  async issueStreamVC(
-    connectionId, 
-    dataHash, 
-    updateFrequency, 
-    startAt, 
-    updatedAt
-  ) {
-    return this.vc.issueStreamVC(
-      connectionId, 
-      dataHash, 
-      updateFrequency, 
-      startAt, 
-      updatedAt
-    );
-  }
+  // async issueStreamVC(
+  //   connectionId, 
+  //   dataHash, 
+  //   updateFrequency, 
+  //   startAt, 
+  //   updatedAt
+  // ) {
+  //   return this.vc.issueStreamVC(
+  //     connectionId, 
+  //     dataHash, 
+  //     updateFrequency, 
+  //     startAt, 
+  //     updatedAt
+  //   );
+  // }
 
-  async sendStreamVC(
+  async issue(
     athorsDid, 
     connectionId, 
     dataHash, 
@@ -38,7 +38,7 @@ class StreamVCMethod {
     startAt, 
     updatedAt  
   ) {
-    return this.vc.sendStreamVC(
+    return this.vc.issue(
       athorsDid,
       connectionId, 
       dataHash, 
@@ -56,12 +56,12 @@ class StreamVCMethod {
     return this.vc.presentProof(params);
   }
 
-  async getStreamVC() {
+  async get() {
 
   }
 
-  async deleteStreamVC() {
-    return this.vc.deleteStreamVC();
+  async delete() {
+    return this.vc.delete();
   }
 
 

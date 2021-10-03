@@ -1,19 +1,23 @@
-const { Agent, Wallet, Schema, CredentialDefinition, Credential, IssueCredentialV2, Connection } = require("indy-request-js");
+const { Wallet, Schema, CredentialDefinition, Credential, IssueCredentialV2, Connection } = require("indy-request-js");
 const { HLindyDidObject } = require("./_hlindyDid");
 
 
-class HLindyDeviceVC extends HLindyDidObject {
+class HLindyRequestVC extends HLindyDidObject {
 
   async get() {
-    let credential = new Credential(this.agent);
-    return await credential.getList({});
+   
   }
 
-  // async issueDeviceVC(name, deviceId, registerAt) {
+  // async getList() {
+  //   let credential = new Credential(this.agent);
+  //   return await credential.getList({});
+  // }
+
+  // async issueVC(bodyHash) {
   //   let issueCredential = new IssueCredentialV2(this.agent);
   //   let did = await this.getDid();
-  //   let schema_id = await this.getDeviceSchemaId();
-  //   let cred_def_id = await this.getDeviceCredDefId();
+  //   let schema_id = await this.getRequestSchemaId();
+  //   let cred_def_id = await this.getReqestCredDefId();
 
   //   let body = {
   //     auto_remove: true,
@@ -21,9 +25,8 @@ class HLindyDeviceVC extends HLindyDidObject {
   //     credential_preview: {
   //       "@type": "/issue-credential/2.0/credential-preview",
   //       attributes: [
-  //         { name: "name", value: name },
-  //         { name: "deviceId", value: deviceId },
-  //         { name: "registerAt", value: registerAt }
+  //         { name: "bodyHash", value: bodyHash },
+  //         { name: "hashAlgorism", value: hashAlgorism }
   //       ]
   //     },
   //     filter: {
@@ -41,24 +44,22 @@ class HLindyDeviceVC extends HLindyDidObject {
   //   return await issueCredential.create(body)
   // }
 
-  async issue(athorsDid, host, port, name, deviceId, registerAt){
-    let theirAgent = new Agent('http', host, port)
-    let issueCredential = new IssueCredentialV2(theirAgent);
-    let did = await this.getDid(theirAgent);
-    let schema_id = await this.getSchemaId({schema_name: 'device'});
-    let cred_def_id = await this.getCredDefId({schema_name: 'device'});
-    let connection_id = await this.getConnectionId(theirAgent);
+  async issue(athorsDid, bodyHash, hashAlgorism){
+    let issueCredential = new IssueCredentialV2(this.agent);
+    let did = await this.getDid();
+    let schema_id = await this.getSchemaId({schema_name: 'message'});
+    let cred_def_id = await this.getCredDefId({schema_name: 'message'});
+    let connection_id = await this.getConnectionId(athorsDid);
 
     let body = {
       auto_remove: true,
       trace: false,
-      connection_id,
+      connection_id: connection_id,
       credential_preview: {
         "@type":  "/issue-credential/2.0/credential-preview",
         attributes: [
-          { name: "name", value: name },
-          { name: "deviceId", value: deviceId },
-          { name: "registerAt", value: registerAt }
+          { name: "bodyHash", value: bodyHash },
+          { name: "hashAlgorism", value: hashAlgorism }
         ]
       },
       filter: {
@@ -68,7 +69,7 @@ class HLindyDeviceVC extends HLindyDidObject {
           issuer_did: did,
           schema_version: "1.0",
           schema_issuer_did: did,
-          schema_name: "device",
+          schema_name: "request",
         }
       },
     }
@@ -79,9 +80,9 @@ class HLindyDeviceVC extends HLindyDidObject {
   async getList() {
     let credential = new Credential(this.agent);
     let credentials = await credential.getList({});
-    let cred_def_id = await this.getDeviceCredDefId();
-    let deviceCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
-    return deviceCredentials;
+    let cred_def_id = await this.getCredDefId({schema_name: 'message'});
+    let requestCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
+    return requestCredentials;
   }
 
   async delete() {
@@ -89,7 +90,6 @@ class HLindyDeviceVC extends HLindyDidObject {
     let result = credential.delete({});
     return result;
   }
-
 }
 
-module.exports.HLindyDeviceVC = HLindyDeviceVC;
+module.exports.HLindyRequestVC = HLindyRequestVC;
