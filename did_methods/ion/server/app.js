@@ -1,4 +1,5 @@
 const express = require('express');
+const ngrok = require("ngrok");
 const session = require('express-session')
 const bodyParser = require('body-parser');
 const base64url = require('base64url')
@@ -177,4 +178,10 @@ app.get('/presentation-response', async (req, res) => {
 
 const port = process.env.PORT || 2000;
 
-app.listen(port, () => console.log(`Example issuer app listening on port ${port}!`))
+ngrok.connect(port).then((url) => {
+  app.listen(port, () => {
+    console.log(`Example issuer app listening on port ${port}!`)
+    console.log(`Example app listening at ${url}`);
+  })
+
+});

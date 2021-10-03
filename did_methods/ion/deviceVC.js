@@ -1,6 +1,8 @@
+let axios = require('axios');
+const ngrok = require("ngrok");
 
-
-
+let url = ngrok.getUrl;
+    console.log(url)
 class IonDeviceVC {
 
   async get() {
@@ -12,11 +14,13 @@ class IonDeviceVC {
   }
 
   async issue() {
-
+    let url = ngrok.getUrl;
+    await axios.post(url + '/issue-request')
   }
 
   async verify() {
-
+    let url = ngrok.getUrl;
+    await axios.post(url + '/presentation-request')
   }
 
 }
