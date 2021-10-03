@@ -104,16 +104,13 @@ class Wallet {
   //   );
   // }
 
-  async issueDeviceVC(
-    athorsDid, 
+  async issueStreamVC(
+    issuerDid, 
     connectionId, 
-    dataHash, 
-    updateFrequency, 
-    startAt, 
-    updatedAt
+    startAt
   ) {
     return await this.streamVC.issue(
-      athorsDid, 
+      issuerDid, 
       connectionId, 
       dataHash, 
       updateFrequency, 
