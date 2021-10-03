@@ -1,4 +1,4 @@
-const { Agent, Wallet, Schema, CredentialDefinition, Credential, IssueCredentialV2, Connection } = require("indy-request-js");
+const { Agent, PresentProofV2, Credential, IssueCredentialV2 } = require("indy-request-js");
 const { HLindyDidObject } = require("./_hlindyDid");
 const url = require('url')
 
@@ -91,6 +91,40 @@ class HLindyDeviceVC extends HLindyDidObject {
     return result;
   }
 
+  async verify(holderDid) {
+    let theirAgent = new Agent('http', localhost, 8031)
+    let presentProof = new PresentProofV2(theirAgent);
+    let connection_id = await this.getConnectionId(holderDid);
+    let cred_def_id = await this.getCredDefId(theirAgent, {schema_name: 'device'});
+
+    let proofRequestBody = {
+        connection_id,
+        proof_request: {
+          name: "Proof Request",
+          version: "1.0",
+          request_attribute: {
+            "0_name_uuid": {
+              name: "name",
+              restrictions: [{
+                cred_def_id
+              }],
+            },
+            "0_deviceId_uuid": {
+              name: "deviceId",
+              restrictions: [{
+                cred_def_id
+              }],
+            "0_self_attested_things_uuid": {
+              name: "self_attested_thing"
+            }
+          },
+        }
+      }
+    };
+
+    let result = presentProof.sendRequest(proofRequestBody);
+    return result;
+  }
 }
 
 module.exports.HLindyDeviceVC = HLindyDeviceVC;

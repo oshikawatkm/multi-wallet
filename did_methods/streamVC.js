@@ -31,7 +31,7 @@ class StreamVCMethod {
   // }
 
   async issue(
-    athorsDid, 
+    issuerDid, 
     connectionId, 
     dataHash, 
     updateFrequency, 
@@ -39,7 +39,7 @@ class StreamVCMethod {
     updatedAt  
   ) {
     return this.vc.issue(
-      athorsDid,
+      issuerDid,
       connectionId, 
       dataHash, 
       updateFrequency, 
