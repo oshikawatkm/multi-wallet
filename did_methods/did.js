@@ -1,5 +1,5 @@
 const { HLindyDid } = require('./hlindy/did');
-const { SidetreeDid } = require('./sidetree/did');
+const { IonDid } = require('./ion/did');
 const { UportDid } = require('./uport/did');
 
 class DidMethod {
@@ -48,8 +48,8 @@ class DidMethod {
       case 'hlindy':
         did_method = new HLindyDid(host, port);
         break;
-      case 'sidetree':
-        did_method = new SidetreeDid();
+      case 'ion':
+        did_method = new IonDid();
         break;
       case 'uport':
         did_method = new UportDid();

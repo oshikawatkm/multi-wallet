@@ -1,0 +1,34 @@
+{
+  "default": {
+    "locale": "en-US",
+    "card": {
+      "title": "Device Manager VC",
+      "issuedBy": "Device Manager Name",
+      "backgroundColor": "#0fe3cd",
+      "textColor": "#000000",
+      "logo": {
+        "uri": "https://oshikawa.blob.core.windows.net/icons/dmv.png",
+        "description": "Device Manager Verified Credential Log"
+      },
+      "description": "Use your verified credential to prove to anyone that you know all about verifiable credentials."
+    },
+    "consent": {
+      "title": "Do you want to get your Verified Credential?",
+      "instructions": "Sign in with your account to get your card."
+    },
+    "claims": {
+      "vc.credentialSubject.deviceId": {
+        "type": "Number",
+        "label": "Device ID"
+      },
+      "vc.credentialSubject.deviceName": {
+        "type": "String",
+        "label": "Device Name"
+      },
+      "vc.credentialSubject.registerAt": {
+        "type": "String",
+        "label": "Register At"
+      }
+    }
+  }
+}

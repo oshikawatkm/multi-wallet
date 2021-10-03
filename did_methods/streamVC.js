@@ -1,5 +1,5 @@
 const { HLindyStreamVC } = require('./hlindy/streamVC');
-const { SidetreeVC } = require('./sidetree/vc');
+const { IonDid } = require('./ion/streamVC');
 const { UportVC } = require('./uport/vc');
 
 class StreamVCMethod {
@@ -71,7 +71,7 @@ class StreamVCMethod {
         vc = new HLindyStreamVC(host, port);
         break;
       case 'sidetree':
-        vc = new SidetreeVC();
+        vc = new IonDid();
         break;
       case 'uport':
         vc = new UportVC();

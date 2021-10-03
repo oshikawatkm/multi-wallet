@@ -1,5 +1,5 @@
 const { HLindyRequestVC } = require('./hlindy/messageVC');
-const { SidetreeVC } = require('./sidetree/vc');
+const { IonDid } = require('./ion/streamVC');
 const { UportVC } = require('./uport/vc');
 
 class MessageVCMethod {
@@ -45,7 +45,7 @@ class MessageVCMethod {
         vc = new HLindyRequestVC(host, port);
         break;
       case 'sidetree':
-        vc = new SidetreeVC();
+        vc = new IonDid();
         break;
       case 'uport':
         vc = new UportVC();
