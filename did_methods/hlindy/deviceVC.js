@@ -98,10 +98,10 @@ class HLindyDeviceVC extends HLindyDidObject {
 
     let proofRequestBody = {
         connection_id,
-        proof_request: {
+        presentation_request: {
           name: "Proof Request",
           version: "1.0",
-          request_attribute: {
+          requested_attributes: {
             "0_name_uuid": {
               name: "name",
               restrictions: [{
