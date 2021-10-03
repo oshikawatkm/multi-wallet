@@ -91,10 +91,9 @@ class HLindyDeviceVC extends HLindyDidObject {
     return result;
   }
 
-  async verify(holderDid) {
-    let theirAgent = new Agent('http', localhost, 8031)
-    let presentProof = new PresentProofV2(theirAgent);
-    let connection_id = await this.getConnectionId(holderDid);
+  async verify() {
+    let presentProof = new PresentProofV2(this.agent);
+    let connection_id = await this.getConnectionId(this.agent);
     let cred_def_id = await this.getCredDefId(theirAgent, {schema_name: 'device'});
 
     let proofRequestBody = {

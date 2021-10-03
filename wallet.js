@@ -75,8 +75,8 @@ class Wallet {
     return deviceVCList;
   }
 
-  async verifyDeviceVC(did) {
-    return await this.deviceVC.verify(did);
+  async verifyDeviceVC() {
+    return await this.deviceVC.verify();
   }
 
   async deleteDeviceVC() {

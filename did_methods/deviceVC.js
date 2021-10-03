@@ -21,8 +21,8 @@ class DeviceVCMethod {
     return this.vc.issue(athorsDid, name, deviceId, registerAt);
   }
 
-  async verify(did) {
-    return this.vc.verify(did);
+  async verify() {
+    return this.vc.verify();
   }
 
   async presentProof(params) {
