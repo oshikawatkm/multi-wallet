@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^10.0.0",
-    "indy-request-js": "github:oshikawatkm/indy-request-js#main"
+    "indy-request-js": "github:oshikawatkm/indy-request-js#main",
+    "url": "^0.11.0"
   }
 }

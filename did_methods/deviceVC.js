@@ -17,8 +17,8 @@ class DeviceVCMethod {
   //   return this.vc.issueVC(name, deviceId, registerAt);
   // }
   
-  async issue(athorsDid, toHost, toPort, name, deviceId, registerAt) {
-    return this.vc.issue(athorsDid, toHost, toPort, name, deviceId, registerAt);
+  async issue(athorsDid, name, deviceId, registerAt) {
+    return this.vc.issue(athorsDid, name, deviceId, registerAt);
   }
 
   async verify(params) {

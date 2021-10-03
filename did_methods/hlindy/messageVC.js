@@ -1,6 +1,6 @@
 const { Wallet, Schema, CredentialDefinition, Credential, IssueCredentialV2, Connection } = require("indy-request-js");
 const { HLindyDidObject } = require("./_hlindyDid");
-
+const url = require('url')
 
 class HLindyRequestVC extends HLindyDidObject {
 
@@ -44,12 +44,14 @@ class HLindyRequestVC extends HLindyDidObject {
   //   return await issueCredential.create(body)
   // }
 
-  async issue(athorsDid, bodyHash, hashAlgorism){
-    let issueCredential = new IssueCredentialV2(this.agent);
-    let did = await this.getDid();
+  async issue(issuerDid, bodyHash, hashAlgorism){
+    let connection_id = await this.getConnectionId(issuerDid);
+    let endpoint = await this.getEndpoint(connection_id);
+    let url = new URL(endpoint);
+    let theirAgent = new Agent('http', url.hostname, url.port)
+    let issueCredential = new IssueCredentialV2(theirAgent);
     let schema_id = await this.getSchemaId({schema_name: 'message'});
     let cred_def_id = await this.getCredDefId({schema_name: 'message'});
-    let connection_id = await this.getConnectionId(athorsDid);
 
     let body = {
       auto_remove: true,
@@ -66,10 +68,10 @@ class HLindyRequestVC extends HLindyDidObject {
         indy: {
           cred_def_id,
           schema_id,
-          issuer_did: did,
+          issuer_did: issuerDid,
           schema_version: "1.0",
-          schema_issuer_did: did,
-          schema_name: "request",
+          schema_issuer_did: issuerDid,
+          schema_name: "message",
         }
       },
     }

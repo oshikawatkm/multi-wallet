@@ -58,8 +58,8 @@ class Wallet {
   //   return await this.deviceVC.issueDeviceVC(name, deviceId, registerAt);
   // }
 
-  async issueDeviceVC(athorsDid, toHost, toPort, name, deviceId, registerAt) {
-    return await this.deviceVC.issue(athorsDid, toHost, toPort, name, deviceId, registerAt);
+  async issueDeviceVC(issueDid, name, deviceId, registerAt) {
+    return await this.deviceVC.issue(issueDid, name, deviceId, registerAt);
   }
 
   async getDeviceVCSchema(param) {
