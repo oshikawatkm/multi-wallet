@@ -69,7 +69,7 @@ class HLindyDidObject {
   async getEndpoint(connection_id) {
     let connection = new Connection(this.agent);
     let endpoint = await connection.endpoints(connection_id);
-    return endpoint.their_endpoint;
+    return endpoint.result.their_endpoint;
   }
 }
 

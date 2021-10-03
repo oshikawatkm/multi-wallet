@@ -1,4 +1,4 @@
-const { Wallet, Schema, CredentialDefinition, Credential, IssueCredentialV2, Connection } = require("indy-request-js");
+const { Agent, Wallet, Schema, CredentialDefinition, Credential, IssueCredentialV2, Connection } = require("indy-request-js");
 const { HLindyDidObject } = require("./_hlindyDid");
 const url = require('url')
 
