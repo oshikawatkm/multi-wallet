@@ -75,12 +75,8 @@ class Wallet {
     return deviceVCList;
   }
 
-  async verifyVC(param) {
-    return await this.deviceVC.verify(param);
-  }
-
-  async presentProofVC() {
-    return await this.deviceVC.presentProof();
+  async verifyDeviceVC(did) {
+    return await this.deviceVC.verify(did);
   }
 
   async deleteDeviceVC() {
@@ -131,12 +127,8 @@ class Wallet {
     return streamVCList;
   }
 
-  async verifyVC(param) {
-    return await this.streamVC.verify(param);
-  }
-
-  async presentProofVC() {
-    return await this.streamVC.presentProof();
+  async verifyStreamVC(did) {
+    return await this.streamVC.verify(did);
   }
 
   async deleteStreamVC() {
@@ -162,12 +154,8 @@ class Wallet {
     return messageVC;
   }
 
-  async verifyVC(param) {
-    return await this.messageVC.verify(param);
-  }
-
-  async presentProofVC() {
-    return await this.messageVC.presentProof();
+  async verifyMessageVC(did) {
+    return await this.messageVC.verify(did);
   }
 
   async deleteMessageVC() {

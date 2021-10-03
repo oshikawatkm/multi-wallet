@@ -48,12 +48,8 @@ class StreamVCMethod {
     );
   }
 
-  async verify(params) {
-    return this.vc.verify(params);
-  }
-
-  async presentProof(params) {
-    return this.vc.presentProof(params);
+  async verify(did) {
+    return this.vc.verify(did);
   }
 
   async get() {

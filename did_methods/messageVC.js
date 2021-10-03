@@ -20,8 +20,8 @@ class MessageVCMethod {
     return this.vc.issue(athorsDid, bodyhash, hashAlgorism);
   }
 
-  async verify(params) {
-    return this.vc.verify(params);
+  async verify(did) {
+    return this.vc.verify(did);
   }
 
   async presentProof(params) {
