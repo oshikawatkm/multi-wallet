@@ -107,7 +107,10 @@ class Wallet {
   async issueStreamVC(
     issuerDid, 
     connectionId, 
-    startAt
+    dataHash, 
+    updateFrequency, 
+    startAt, 
+    updatedAt
   ) {
     return await this.streamVC.issue(
       issuerDid, 
