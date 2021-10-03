@@ -43,7 +43,7 @@ class HLindyDidObject {
 
   async getDid() {
     let wallet = new Wallet(this.agent);
-    let dids = await wallet.did({posture: 'posted'});
+    let dids = await wallet.didPublic();
     return dids.results[0].did;
   }
 
