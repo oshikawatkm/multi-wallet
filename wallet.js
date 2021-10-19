@@ -1,7 +1,8 @@
 const { DidMethod } = require('./did_methods/did');
+const { AccessVCMethod } = require('./did_methods/accessVC');
 const { DeviceVCMethod } = require('./did_methods/deviceVC');
 const { StreamVCMethod } = require('./did_methods/streamVC');
-const { MessageVCMethod } = require('./did_methods/messageVC');
+// const { MessageVCMethod } = require('./did_methods/messageVC');
 
 class Wallet {
 
@@ -11,9 +12,10 @@ class Wallet {
     let port = config ? config.agent.port : process.env.HLINDY_AGENT_PORT;
 
     this.did = new DidMethod(didMethod, host, port);
+    this.accessVC = new AccessVCMethod(didMethod, host, port);
     this.deviceVC = new DeviceVCMethod(didMethod, host, port);
     this.streamVC = new StreamVCMethod(didMethod, host, port);
-    this.messageVC = new MessageVCMethod(didMethod, host, port);
+    // this.messageVC = new MessageVCMethod(didMethod, host, port);
   }
 
   async init() {
@@ -58,8 +60,23 @@ class Wallet {
   //   return await this.deviceVC.issueDeviceVC(name, deviceId, registerAt);
   // }
 
-  async issueDeviceVC(issueDid, name, deviceId, registerAt) {
-    return await this.deviceVC.issue(issueDid, name, deviceId, registerAt);
+  async issueDeviceVC(issuerDid, name, serviceEndpoint, description, registerAt) {
+    return await this.deviceVC.issue(issuerDid, name, serviceEndpoint, description, registerAt);
+  }
+
+  async sendDeviceVC(
+    holderDid, 
+    name, 
+    serviceEndpoint, 
+    description, 
+    registerAt
+  ) {
+    return await this.deviceVC.send(
+      holderDid, 
+      name, 
+      serviceEndpoint, 
+      description, 
+      registerAt);
   }
 
   async getDeviceVCSchema(param) {
@@ -136,31 +153,36 @@ class Wallet {
   }
 
 
-  // Request VC Method
-  async issueMessageVC(bodyHash) {
-    return await this.messageVC.issue(bodyHash);
+  async sendAccessVC(holderDid, endpointUrl, registerAt) {
+    return await this.messageVC.issue(holderDid, endpointUrl, registerAt);
   }
 
-  async sendMessageVC(athorsDid, bodyHash, hashAlgorism) {
-    return await this.messageVC.issue(athorsDid, bodyHash, hashAlgorism);
-  }
 
-  async getMessageVCSchema(param) {
+  // // Request VC Method
+  // async issueMessageVC(bodyHash) {
+  //   return await this.messageVC.issue(bodyHash);
+  // }
+
+  // async sendMessageVC(athorsDid, bodyHash, hashAlgorism) {
+  //   return await this.messageVC.issue(athorsDid, bodyHash, hashAlgorism);
+  // }
+
+  // async getMessageVCSchema(param) {
   
-  }
+  // }
 
-  async getMessageVCList(params){
-    let messageVC = await this.messageVC.getList();
-    return messageVC;
-  }
+  // async getMessageVCList(params){
+  //   let messageVC = await this.messageVC.getList();
+  //   return messageVC;
+  // }
 
-  async verifyMessageVC(did) {
-    return await this.messageVC.verify(did);
-  }
+  // async verifyMessageVC(did) {
+  //   return await this.messageVC.verify(did);
+  // }
 
-  async deleteMessageVC() {
-    return await this.messageVC.delete();
-  }
+  // async deleteMessageVC() {
+  //   return await this.messageVC.delete();
+  // }
 
 }
 

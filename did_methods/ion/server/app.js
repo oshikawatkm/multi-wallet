@@ -1,5 +1,6 @@
 const express = require('express');
 const ngrok = require("ngrok");
+const axios = require("axios");
 const session = require('express-session')
 const bodyParser = require('body-parser');
 const base64url = require('base64url')
@@ -54,10 +55,6 @@ app.get("/echo",
     }
 );
 
-app.get('/', function (req, res) { 
-  res.sendFile('public/index.html', {root: __dirname})
-})
-
 app.get('/issue-request', async (req, res) => {
   state = req.session.id;
   const nonce = base64url.encode(Buffer.from(secureRandom.randomUint8Array(10)));
@@ -85,10 +82,14 @@ app.get('/issue-request', async (req, res) => {
   
   let requestUri = encodeURIComponent(`https://${req.hostname}/issue-request.jwt?id=${req.session.id}`);
   let issueRequestReference = `https://${req.hostname}/?request_uri=` + requestUri;
-  res.send(issueRequestReference);
+  res.send(issueRequestReference)
 })
 
 app.get('/issue-request.jwt', async (req, res) => {
+  console.log(req.params)
+  console.log('========================')
+  console.log(session)
+  console.log('========================')
   sessionStore.get(req.query.id, (error, session) => {
     res.send(session.issueRequest.request);
   })

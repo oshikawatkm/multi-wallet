@@ -9,7 +9,7 @@ class HLindyDeviceVC extends HLindyDidObject {
     return await credential.getList({});
   }
 
-  // async issueDeviceVC(name, deviceId, registerAt) {
+  // async issue(name, deviceId, registerAt) {
   //   let issueCredential = new IssueCredentialV2(this.agent);
   //   let did = await this.getDid();
   //   let schema_id = await this.getDeviceSchemaId();
@@ -41,8 +41,14 @@ class HLindyDeviceVC extends HLindyDidObject {
   //   return await issueCredential.create(body)
   // }
 
-  async issue(issuerDid, name, deviceId, registerAt){
-    let connection_id = await this.getConnectionId(issuerDid);
+  async send(
+    holderDid, 
+    name, 
+    serviceEndpoint, 
+    description, 
+    registerAt
+  ){
+    let connection_id = await this.getConnectionId(holderDid);
     let endpoint = await this.getEndpoint(connection_id);
     let url = new URL(endpoint);
     let theirAgent = new Agent('http', url.hostname, url.port)
@@ -58,7 +64,8 @@ class HLindyDeviceVC extends HLindyDidObject {
         "@type":  "/issue-credential/2.0/credential-preview",
         attributes: [
           { name: "name", value: name },
-          { name: "deviceId", value: deviceId },
+          { name: "serviceEndpoint", value: serviceEndpoint },
+          { name: "description", value: description },
           { name: "registerAt", value: registerAt }
         ]
       },
@@ -66,9 +73,9 @@ class HLindyDeviceVC extends HLindyDidObject {
         indy: {
           cred_def_id,
           schema_id,
-          issuer_did: issuerDid,
+          issuer_did: holderDid,
           schema_version: "1.0",
-          schema_issuer_did: issuerDid,
+          schema_issuer_did: holderDid,
           schema_name: "device",
         }
       },
@@ -114,14 +121,15 @@ class HLindyDeviceVC extends HLindyDidObject {
                 restrictions: [{
                   cred_def_id
                 }],
-              "0_self_attested_things_uuid": {
-                name: "self_attested_thing"
-              }
-            },
+                "0_self_attested_things_uuid": {
+                  name: "self_attested_thing"
+                }
+              },
+              requested_predicates: []
+            }
           }
         }
-      }
-    };
+      };
 
     let result = await presentProof.sendRequest(proofRequestBody);
     return result;

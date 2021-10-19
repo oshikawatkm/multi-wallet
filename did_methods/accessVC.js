@@ -12,30 +12,10 @@ class DeviceVCMethod {
   async getList() {
     return this.vc.get();
   }
-
-  // async issueDeviceVC(name, deviceId, registerAt) {
-  //   return this.vc.issueVC(name, deviceId, registerAt);
-  // }
   
-  async issue(athorsDid, name, deviceId, registerAt) {
-    return this.vc.issue(athorsDid, name, deviceId, registerAt);
+  async issue(holderDid, endpointUrl, registerAt) {
+    return this.vc.issue(holderDid, name, endpointUrl, registerAt);
   }
-
-  async send(
-    holderDid, 
-    name, 
-    serviceEndpoint, 
-    description, 
-    registerAt
-  ) {
-    return this.vc.send(
-      holderDid, 
-      name, 
-      serviceEndpoint, 
-      description, 
-      registerAt
-    );
-  };
 
   async verify() {
     return this.vc.verify();
