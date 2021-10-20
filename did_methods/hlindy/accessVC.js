@@ -9,8 +9,8 @@ class HLindyAccessVC extends HLindyDidObject {
   }
 
 
-  async send(issuerDid, endpointUrl, registerAt){
-    let connection_id = await this.getConnectionId(issuerDid);
+  async send(tag, endpointUrl, registerAt){
+    let connection_id = await this.getConnectionIdByTag(tag);
     let endpoint = await this.getEndpoint(connection_id);
     let url = new URL(endpoint);
     let theirAgent = new Agent('http', url.hostname, url.port)

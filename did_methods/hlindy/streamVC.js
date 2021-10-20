@@ -51,14 +51,14 @@ class HLindyStreamVC extends HLindyDidObject {
   // }
 
   async issue(
-    issuerDid,
+    tag,
     streamId, 
     dataHash, 
     updateFrequency, 
     startAt, 
     updatedAt
   ){
-    let connection_id = await this.getConnectionId(issuerDid);
+    let connection_id = await this.getConnectionIdByTag(tag);
     let endpoint = await this.getEndpoint(connection_id);
     let url = new URL(endpoint);
     let theirAgent = new Agent('http', url.hostname, url.port)

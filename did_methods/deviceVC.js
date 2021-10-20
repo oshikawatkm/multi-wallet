@@ -16,12 +16,12 @@ class DeviceVCMethod {
   //   return this.vc.issueVC(name, deviceId, registerAt);
   // }
   
-  async issue(athorsDid, name, deviceId, registerAt) {
+  async issue(tag, name, deviceId, registerAt) {
     return this.vc.issue(athorsDid, name, deviceId, registerAt);
   }
 
   async send(
-    holderDid, 
+    tag, 
     name, 
     serviceEndpoint, 
     description, 

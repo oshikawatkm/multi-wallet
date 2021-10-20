@@ -45,7 +45,7 @@ class HLindyRequestVC extends HLindyDidObject {
   // }
 
   async issue(issuerDid, bodyHash, hashAlgorism){
-    let connection_id = await this.getConnectionId(issuerDid);
+    let connection_id = await this.getConnectionIdByTag(issuerDid);
     let endpoint = await this.getEndpoint(connection_id);
     let url = new URL(endpoint);
     let theirAgent = new Agent('http', url.hostname, url.port)

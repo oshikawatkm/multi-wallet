@@ -65,7 +65,7 @@ class Wallet {
   }
 
   async sendDeviceVC(
-    holderDid, 
+    tag, 
     name, 
     serviceEndpoint, 
     description, 

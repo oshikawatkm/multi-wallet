@@ -60,9 +60,15 @@ class HLindyDidObject {
     return credentialDefinitionList.results.credential_definition_ids[0];
   }
 
-  async getConnectionId(did) {
+  async getConnectionIdByDid(did) {
     let connection = new Connection(this.agent);
     let connectionList = await connection.getList({state: 'active', their_did: did});
+    return connectionList.results[0].connection_id;
+  }
+
+  async getConnectionIdByTag(tag) {
+    let connection = new Connection(this.agent);
+    let connectionList = await connection.getList({state: 'active', their_tag: tag});
     return connectionList.results[0].connection_id;
   }
 

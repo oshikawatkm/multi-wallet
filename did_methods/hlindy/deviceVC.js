@@ -42,13 +42,13 @@ class HLindyDeviceVC extends HLindyDidObject {
   // }
 
   async send(
-    holderDid, 
+    tag, 
     name, 
     serviceEndpoint, 
     description, 
     registerAt
   ){
-    let connection_id = await this.getConnectionId(holderDid);
+    let connection_id = await this.getConnectionIdByTag(tag);
     let endpoint = await this.getEndpoint(connection_id);
     let url = new URL(endpoint);
     let theirAgent = new Agent('http', url.hostname, url.port)
@@ -98,9 +98,9 @@ class HLindyDeviceVC extends HLindyDidObject {
     return result;
   }
 
-  async verify() {
+  async verify(tag) {
     let presentProof = new PresentProofV2(this.agent);
-    let connection_id = await this.getConnectionId(this.agent);
+    let connection_id = await this.getConnectionIdByTag(tag);
     let cred_def_id = await this.getCredDefId(this.agent, {schema_name: 'device'});
 
     let proofRequestBody = {
