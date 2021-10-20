@@ -5,7 +5,6 @@ const { UportVC } = require('./uport/vc');
 class DeviceVCMethod {
 
   constructor(didMethod, host, port) {
-    console.log(didMethod, host, port)
     this.vc = this.load_vc_method(didMethod, host, port);
   }
 

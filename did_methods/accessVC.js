@@ -5,7 +5,6 @@ const { HLindyAccessVC } = require('./hlindy/accessVC');
 class AccessVCMethod {
 
   constructor(didMethod, host, port) {
-    console.log(didMethod, host, port)
     this.vc = this.load_vc_method(didMethod, host, port);
   }
 

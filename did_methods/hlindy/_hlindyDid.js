@@ -62,7 +62,7 @@ class HLindyDidObject {
 
   async getConnectionId(did) {
     let connection = new Connection(this.agent);
-    let connectionList = await connection.getList({state: 'active', my_did: did});
+    let connectionList = await connection.getList({state: 'active', their_did: did});
     return connectionList.results[0].connection_id;
   }
 
