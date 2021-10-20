@@ -1,8 +1,8 @@
-const { HLindyDeviceVC } = require('./hlindy/deviceVC');
-const { IonDeviceVC } = require('./ion/deviceVC');
-const { UportVC } = require('./uport/vc');
+const { HLindyAccessVC } = require('./hlindy/accessVC');
+// const { IonDeviceVC } = require('./ion/deviceVC');
+// const { UportVC } = require('./uport/vc');
 
-class DeviceVCMethod {
+class AccessVCMethod {
 
   constructor(didMethod, host, port) {
     console.log(didMethod, host, port)
@@ -39,13 +39,13 @@ class DeviceVCMethod {
     let vc;
     switch(didMethod) {
       case 'hlindy':
-        vc = new HLindyDeviceVC(host, port);
+        vc = new HLindyAccessVC(host, port);
         break;
       case 'sidetree':
-        vc = new IonDeviceVC();
+        // vc = new IonAccessVC();
         break;
       case 'uport':
-        vc = new UportVC();
+        // vc = new UportVC();
         break;
       default:
         throw new Error('Unimplemented DID method.');
@@ -55,4 +55,4 @@ class DeviceVCMethod {
 
 }
 
-module.exports.DeviceVCMethod = DeviceVCMethod;
+module.exports.AccessVCMethod = AccessVCMethod;

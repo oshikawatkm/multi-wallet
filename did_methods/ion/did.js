@@ -1,4 +1,4 @@
-const { SidetreeDidObject } = require("./_ionDid");
+const { IonDidObject } = require("./_ionDid");
 
 class IonDid extends IonDidObject {
 
