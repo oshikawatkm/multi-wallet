@@ -72,7 +72,7 @@ class Wallet {
     registerAt
   ) {
     return await this.deviceVC.send(
-      holderDid, 
+      tag, 
       name, 
       serviceEndpoint, 
       description, 

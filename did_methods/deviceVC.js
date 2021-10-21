@@ -28,7 +28,7 @@ class DeviceVCMethod {
     registerAt
   ) {
     return this.vc.send(
-      holderDid, 
+      tag, 
       name, 
       serviceEndpoint, 
       description, 
