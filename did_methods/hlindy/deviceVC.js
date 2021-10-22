@@ -48,13 +48,12 @@ class HLindyDeviceVC extends HLindyDidObject {
     description, 
     registerAt
   ){
-    let connection_id = await this.getConnectionIdByTag(tag);
+    let { connection_id, their_did } = await this.getConnectionIdByTag(tag);
     let endpoint = await this.getEndpoint(connection_id);
     let url = new URL(endpoint);
-    let theirAgent = new Agent('http', url.hostname, url.port)
-    let issueCredential = new IssueCredentialV2(theirAgent);
-    let schema_id = await this.getSchemaId(theirAgent, {schema_name: 'device'});
-    let cred_def_id = await this.getCredDefId(theirAgent, {schema_name: 'device'});
+    let issueCredential = new IssueCredentialV2(this.agent);
+    let schema_id = await this.getSchemaId(this.agent, {schema_name: 'device'});
+    let cred_def_id = await this.getCredDefId(this.agent, {schema_name: 'device'});
 
     let body = {
       auto_remove: true,
@@ -73,9 +72,9 @@ class HLindyDeviceVC extends HLindyDidObject {
         indy: {
           cred_def_id,
           schema_id,
-          issuer_did: holderDid,
+          issuer_did: their_did,
           schema_version: "1.0",
-          schema_issuer_did: holderDid,
+          schema_issuer_did: their_did,
           schema_name: "device",
         }
       },
