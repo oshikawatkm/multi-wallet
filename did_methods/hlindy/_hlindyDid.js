@@ -1,5 +1,5 @@
 
-const { Agent, Schema, CredentialDefinition, Connection } = require("indy-request-js");
+const { Agent, Wallet, Schema, CredentialDefinition, Connection } = require("indy-request-js");
 
 
 class HLindyDidObject {
