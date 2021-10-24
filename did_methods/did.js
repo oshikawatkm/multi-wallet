@@ -55,7 +55,8 @@ class DidMethod {
         did_method = new UportDid();
         break;
       case 'mock':
-        did_method = new MockDid()
+        did_method = new MockDid();
+        break;
       default:
         throw new Error('Unimplemented DID method.');
     }

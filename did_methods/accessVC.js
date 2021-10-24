@@ -48,7 +48,8 @@ class AccessVCMethod {
         // vc = new UportVC();
         break;
       case 'mock':
-        vc = new MockAccessVC()
+        vc = new MockAccessVC();
+        break;
       default:
         throw new Error('Unimplemented DID method.');
     }
