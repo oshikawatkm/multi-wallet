@@ -78,7 +78,7 @@ class StreamVCMethod {
         break;
       case 'mock':
         // vc = new MockDid()
-        // break;
+        break;
       default:
         throw new Error('Unimplemented DID method.');
     }
