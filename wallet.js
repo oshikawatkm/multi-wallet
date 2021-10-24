@@ -158,31 +158,11 @@ class Wallet {
   }
 
 
-  // // Request VC Method
-  // async issueMessageVC(bodyHash) {
-  //   return await this.messageVC.issue(bodyHash);
-  // }
+  async getAccessVCList(){
+    let accessVCList = await this.accessVC.getList();
+    return accessVCList;
+  }
 
-  // async sendMessageVC(athorsDid, bodyHash, hashAlgorism) {
-  //   return await this.messageVC.issue(athorsDid, bodyHash, hashAlgorism);
-  // }
-
-  // async getMessageVCSchema(param) {
-  
-  // }
-
-  // async getMessageVCList(params){
-  //   let messageVC = await this.messageVC.getList();
-  //   return messageVC;
-  // }
-
-  // async verifyMessageVC(did) {
-  //   return await this.messageVC.verify(did);
-  // }
-
-  // async deleteMessageVC() {
-  //   return await this.messageVC.delete();
-  // }
 
 }
 
