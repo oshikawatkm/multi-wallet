@@ -1,7 +1,7 @@
 const { HLindyDid } = require('./hlindy/did');
 const { IonDid } = require('./ion/did');
 const { UportDid } = require('./uport/did');
-
+const { MockDid } = requier('./mock/did');
 class DidMethod {
 
   constructor(method, host, port) {
@@ -54,6 +54,8 @@ class DidMethod {
       case 'uport':
         did_method = new UportDid();
         break;
+      case 'mock':
+        did_method = new MockDid()
       default:
         throw new Error('Unimplemented DID method.');
     }

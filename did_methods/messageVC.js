@@ -1,7 +1,6 @@
 const { HLindyRequestVC } = require('./hlindy/messageVC');
 const { IonDid } = require('./ion/streamVC');
 const { UportVC } = require('./uport/vc');
-
 class MessageVCMethod {
 
   constructor(didMethod, host, port) {
@@ -50,6 +49,8 @@ class MessageVCMethod {
       case 'uport':
         vc = new UportVC();
         break;
+      case 'mock':
+        did_method = new MockDid()
       default:
         throw new Error('Unimplemented DID method.');
     }

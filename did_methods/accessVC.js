@@ -1,4 +1,5 @@
 const { HLindyAccessVC } = require('./hlindy/accessVC');
+const { MockAccessVC } = require('./mock/accessVC')
 // const { IonDeviceVC } = require('./ion/deviceVC');
 // const { UportVC } = require('./uport/vc');
 
@@ -46,6 +47,8 @@ class AccessVCMethod {
       case 'uport':
         // vc = new UportVC();
         break;
+      case 'mock':
+        did_method = new MockDid()
       default:
         throw new Error('Unimplemented DID method.');
     }

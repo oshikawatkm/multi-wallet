@@ -1,6 +1,7 @@
 const { HLindyDeviceVC } = require('./hlindy/deviceVC');
 const { IonDeviceVC } = require('./ion/deviceVC');
 const { UportVC } = require('./uport/vc');
+const { MockDeviceVC } = require('./mock/deviceVC');
 
 class DeviceVCMethod {
 
@@ -66,6 +67,8 @@ class DeviceVCMethod {
       case 'uport':
         vc = new UportVC();
         break;
+      case 'mock':
+        did_method = new MockDid()
       default:
         throw new Error('Unimplemented DID method.');
     }

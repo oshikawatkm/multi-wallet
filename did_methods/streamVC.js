@@ -76,6 +76,8 @@ class StreamVCMethod {
       case 'uport':
         vc = new UportVC();
         break;
+      case 'mock':
+        did_method = new MockDid()
       default:
         throw new Error('Unimplemented DID method.');
     }
