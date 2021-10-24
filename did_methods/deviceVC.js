@@ -10,7 +10,7 @@ class DeviceVCMethod {
   }
 
   async getList() {
-    return this.vc.get();
+    return this.vc.getList();
   }
 
   // async issueDeviceVC(name, deviceId, registerAt) {
@@ -45,8 +45,8 @@ class DeviceVCMethod {
     return this.vc.presentProof(params);
   }
 
-  async get() {
-
+  async get(did) {
+    return this.vc.get(did);
   }
 
   async delete() {

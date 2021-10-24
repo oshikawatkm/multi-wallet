@@ -2,7 +2,7 @@
 
 class MockDeviceVC {
 
-  async get() {
+  async get(did) {
     let deviceCredential = {
       "referent": "20ef6d33-659b-471a-8448-48c9fa1ff569",
       "attrs": {

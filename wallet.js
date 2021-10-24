@@ -92,6 +92,11 @@ class Wallet {
     return deviceVCList;
   }
 
+  async getDeviceVC(did){
+    let deviceVC = await this.deviceVC.get(did);
+    return deviceVC;
+  }
+
   async verifyDeviceVC() {
     return await this.deviceVC.verify();
   }
@@ -157,10 +162,15 @@ class Wallet {
     return await this.messageVC.issue(holderDid, endpointUrl, registerAt);
   }
 
-
   async getAccessVCList(){
     let accessVCList = await this.accessVC.getList();
     return accessVCList;
+  }
+
+
+  async getAccessVC(did){
+    let accessVC = await this.accessVC.get(did);
+    return accessVC;
   }
 
 

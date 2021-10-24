@@ -25,8 +25,8 @@ class AccessVCMethod {
     return this.vc.presentProof(params);
   }
 
-  async get() {
-
+  async get(did) {
+    return this.vc.get(did);
   }
 
   async delete() {
