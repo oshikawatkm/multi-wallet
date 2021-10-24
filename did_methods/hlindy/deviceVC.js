@@ -48,7 +48,6 @@ class HLindyDeviceVC extends HLindyDidObject {
     description, 
     registerAt
   ){
-
     let did = await this.getDid();
     let connection_id = await this.getConnectionIdByTag(tag);
     let issueCredential = new IssueCredentialV2(this.agent);
@@ -62,6 +61,7 @@ class HLindyDeviceVC extends HLindyDidObject {
       credential_preview: {
         "@type":  "/issue-credential/2.0/credential-preview",
         attributes: [
+          { name: "did", value: did },
           { name: "name", value: name },
           { name: "serviceEndpoint", value: serviceEndpoint },
           { name: "description", value: description },
@@ -75,7 +75,7 @@ class HLindyDeviceVC extends HLindyDidObject {
           issuer_did: did,
           schema_version: "1.0",
           schema_issuer_did: did,
-          schema_name: "device",
+          schema_name: "device"
         }
       },
     }

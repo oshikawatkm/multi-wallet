@@ -10,13 +10,11 @@ class HLindyAccessVC extends HLindyDidObject {
 
 
   async send(tag, endpointUrl, registerAt){
+    let did = await this.getDid();
     let connection_id = await this.getConnectionIdByTag(tag);
-    let endpoint = await this.getEndpoint(connection_id);
-    let url = new URL(endpoint);
-    let theirAgent = new Agent('http', url.hostname, url.port)
-    let issueCredential = new IssueCredentialV2(theirAgent);
-    let schema_id = await this.getSchemaId(theirAgent, {schema_name: 'device'});
-    let cred_def_id = await this.getCredDefId(theirAgent, {schema_name: 'device'});
+    let issueCredential = new IssueCredentialV2(this.agent);
+    let schema_id = await this.getSchemaId(this.agent, {schema_name: 'access'});
+    let cred_def_id = await this.getCredDefId(this.agent, {schema_name: 'access'});
 
     let body = {
       auto_remove: true,
@@ -25,6 +23,7 @@ class HLindyAccessVC extends HLindyDidObject {
       credential_preview: {
         "@type":  "/issue-credential/2.0/credential-preview",
         attributes: [
+          { name: "did", value: did },
           { name: "endpointUrl", value: endpointUrl },
           { name: "registerAt", value: registerAt }
         ]
@@ -33,10 +32,10 @@ class HLindyAccessVC extends HLindyDidObject {
         indy: {
           cred_def_id,
           schema_id,
-          issuer_did: issuerDid,
+          issuer_did: did,
           schema_version: "1.0",
-          schema_issuer_did: issuerDid,
-          schema_name: "device",
+          schema_issuer_did: did,
+          schema_name: "access"
         }
       },
     }
