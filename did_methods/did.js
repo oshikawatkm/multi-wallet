@@ -1,7 +1,7 @@
 const { HLindyDid } = require('./hlindy/did');
 const { IonDid } = require('./ion/did');
 const { UportDid } = require('./uport/did');
-const { MockDid } = requier('./mock/did');
+const { MockDid } = require('./mock/did');
 class DidMethod {
 
   constructor(method, host, port) {
