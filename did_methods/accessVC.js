@@ -10,7 +10,7 @@ class AccessVCMethod {
   }
 
   async getList() {
-    return this.vc.get();
+    return this.vc.getList();
   }
   
   async issue(holderDid, endpointUrl, registerAt) {
