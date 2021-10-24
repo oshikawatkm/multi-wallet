@@ -68,7 +68,7 @@ class DeviceVCMethod {
         vc = new UportVC();
         break;
       case 'mock':
-        did_method = new MockDid()
+        vc = new MockDeviceVC()
       default:
         throw new Error('Unimplemented DID method.');
     }

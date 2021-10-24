@@ -50,7 +50,7 @@ class MessageVCMethod {
         vc = new UportVC();
         break;
       case 'mock':
-        did_method = new MockDid()
+        // vc = new MockDid()
       default:
         throw new Error('Unimplemented DID method.');
     }
