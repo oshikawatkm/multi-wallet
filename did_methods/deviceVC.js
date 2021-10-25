@@ -29,19 +29,22 @@ class DeviceVCMethod {
   ) {
     return this.vc.send(
       tag, 
-      name, 
       serviceEndpoint, 
       description, 
       registerAt
     );
   };
 
-  async verify() {
-    return this.vc.verify();
+  async requestProof(tag) {
+    return this.vc.requestProof(tag);
   }
 
-  async presentProof(params) {
-    return this.vc.presentProof(params);
+  async presentProof() {
+    return this.vc.presentProof();
+  }
+
+  async verify() {
+    return this.vc.verify();
   }
 
   async get(did) {

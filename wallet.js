@@ -55,11 +55,6 @@ class Wallet {
     return await this.did.setDidEndpoint(did, endpoint, endpointType);
   }
 
-  // Device VC Method
-  // async issueDeviceVC(name, deviceId, registerAt) {
-  //   return await this.deviceVC.issueDeviceVC(name, deviceId, registerAt);
-  // }
-
   async issueDeviceVC(issuerDid, name, serviceEndpoint, description, registerAt) {
     return await this.deviceVC.issue(issuerDid, name, serviceEndpoint, description, registerAt);
   }
@@ -75,6 +70,18 @@ class Wallet {
       serviceEndpoint, 
       description, 
       registerAt);
+  }
+
+  async requestProofDeviceVC(tag){
+    return await this.deviceVC.requestProof(tag);
+  }
+
+  async presentProofDeviceVC(){
+    return await this.deviceVC.presentProof();
+  }
+
+  async verifyProofDeviceVC(){
+    return await this.deviceVC.verify();
   }
 
   async getDeviceVCSchema(param) {
@@ -102,23 +109,6 @@ class Wallet {
   async deleteDeviceVC() {
     return await this.deviceVC.delete();
   }
-
-  // Stream VC Method
-  // async issueDeviceVC(
-  //   connectionId, 
-  //   dataHash, 
-  //   updateFrequency, 
-  //   startAt, 
-  //   updatedAt
-  // ) {
-  //   return await this.streamVC.issueStreamVC(
-  //     connectionId, 
-  //     dataHash, 
-  //     updateFrequency, 
-  //     startAt, 
-  //     updatedAt
-  //   );
-  // }
 
   async issueStreamVC(
     issuerDid, 
