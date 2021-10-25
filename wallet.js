@@ -65,15 +65,13 @@ class Wallet {
   }
 
   async sendDeviceVC(
-    tag, 
-    name, 
+    tag,
     serviceEndpoint, 
     description, 
     registerAt
   ) {
     return await this.deviceVC.send(
-      tag, 
-      name, 
+      tag,
       serviceEndpoint, 
       description, 
       registerAt);

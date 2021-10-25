@@ -22,8 +22,7 @@ class DeviceVCMethod {
   }
 
   async send(
-    tag, 
-    name, 
+    tag,
     serviceEndpoint, 
     description, 
     registerAt
