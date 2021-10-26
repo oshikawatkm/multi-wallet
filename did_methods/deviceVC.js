@@ -9,29 +9,19 @@ class DeviceVCMethod {
     this.vc = this.load_vc_method(didMethod, host, port);
   }
 
+  async get(did) {
+    return this.vc.getCred(did);
+  }
+
   async getList() {
-    return this.vc.getList();
+    return this.vc.getCredList();
   }
 
-  // async issueDeviceVC(name, deviceId, registerAt) {
-  //   return this.vc.issueVC(name, deviceId, registerAt);
-  // }
-  
-  async issue(tag, name, deviceId, registerAt) {
-    return this.vc.issue(athorsDid, name, deviceId, registerAt);
-  }
-
-  async send(
-    tag,
-    serviceEndpoint, 
-    description, 
-    registerAt
-  ) {
+  async send(tag, serviceEndpoint, description) {
     return this.vc.send(
       tag, 
       serviceEndpoint, 
-      description, 
-      registerAt
+      description
     );
   };
 
@@ -45,10 +35,6 @@ class DeviceVCMethod {
 
   async verify() {
     return this.vc.verify();
-  }
-
-  async get(did) {
-    return this.vc.get(did);
   }
 
   async delete() {

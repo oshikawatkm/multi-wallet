@@ -55,21 +55,15 @@ class Wallet {
     return await this.did.setDidEndpoint(did, endpoint, endpointType);
   }
 
-  async issueDeviceVC(issuerDid, name, serviceEndpoint, description, registerAt) {
-    return await this.deviceVC.issue(issuerDid, name, serviceEndpoint, description, registerAt);
+  async issueDeviceVC(issuerDid, name, serviceEndpoint, description) {
+    return await this.deviceVC.issue(issuerDid, name, serviceEndpoint, description);
   }
 
-  async sendDeviceVC(
-    tag,
-    serviceEndpoint, 
-    description, 
-    registerAt
-  ) {
+  async sendDeviceVC(tag, serviceEndpoint, description) {
     return await this.deviceVC.send(
       tag,
       serviceEndpoint, 
-      description, 
-      registerAt);
+      description,);
   }
 
   async requestProofDeviceVC(tag){
@@ -84,22 +78,22 @@ class Wallet {
     return await this.deviceVC.verify();
   }
 
-  async getDeviceVCSchema(param) {
-  
+  async getDeviceVC(did){
+    let deviceVC = await this.deviceVC.get(did);
+    return deviceVC;
   }
 
-  async getConnectionVCSchema(param) {
-  
-  }
-
-  async getDeviceVCList(params){
+  async getDeviceVCList(){
     let deviceVCList = await this.deviceVC.getList();
     return deviceVCList;
   }
 
-  async getDeviceVC(did){
-    let deviceVC = await this.deviceVC.get(did);
-    return deviceVC;
+  async requestProof(tag) {
+    return await this.deviceVC.requestProof();
+  }
+
+  async presentProof() {
+    return await this.deviceVC.presentProof();
   }
 
   async verifyDeviceVC() {
@@ -146,8 +140,8 @@ class Wallet {
   }
 
 
-  async sendAccessVC(holderDid, endpointUrl, registerAt) {
-    return await this.messageVC.issue(holderDid, endpointUrl, registerAt);
+  async sendAccessVC(holderDid, endpointUrl) {
+    return await this.messageVC.issue(holderDid, endpointUrl);
   }
 
   async getAccessVCList(){

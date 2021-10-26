@@ -3,17 +3,9 @@ const { HLindyDidObject } = require("./_hlindyDid");
 
 class HLindyDeviceVC extends HLindyDidObject {
 
-  async getCred({ name, serviceEndpoint, registerAt }) {
+  async getCred(did) {
     let credentials = this.getCredList()
-    if (name) {
-      credentials = credentials.filter(credential => credential.name == name)
-    }
-    if (serviceEndpoint) {
-      credentials = credentials.filter(credential => credential.serviceEndpoint == serviceEndpoint)
-    }
-    if (registerAt) {
-      credentials = credentials.filter(credential => credential.registerAt == registerAt)
-    }
+    credentials = credentials.filter(credential => credential.did == did)
     return await credentials[0];
   }
 
@@ -110,7 +102,6 @@ class HLindyDeviceVC extends HLindyDidObject {
         }
       }
     };
-
     let result = await presentProof.sendRequest(proofRequestBody);
     return result;
   }
@@ -147,7 +138,6 @@ class HLindyDeviceVC extends HLindyDidObject {
       },
       trace: true
     }
-    
     let result = await presentProof.recordsSendPresentation(pres_ex_id, presentProofBody);
     return result;
   }
