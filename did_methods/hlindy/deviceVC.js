@@ -4,7 +4,7 @@ const { HLindyDidObject } = require("./_hlindyDid");
 class HLindyDeviceVC extends HLindyDidObject {
 
   async getCred(did) {
-    let credentials = this.getCredList()
+    let credentials = await this.getCredList()
     credentials = credentials.filter(credential => credential.did == did)
     return await credentials[0];
   }
@@ -108,9 +108,9 @@ class HLindyDeviceVC extends HLindyDidObject {
 
   async presentProof(){
     let presentProof = new PresentProofV2(this.agent);
-    let credential = this.getLatestCred();
+    let credential = await this.getLatestCred();
     let cred_id = credential.referent;
-    let pres_ex_id = this.getPresExId();
+    let pres_ex_id = await this.getPresExId();
 
     let presentProofBody = {
       indy: {
@@ -144,7 +144,7 @@ class HLindyDeviceVC extends HLindyDidObject {
 
   async verify() {
     let presentProof = new PresentProofV2(this.agent);
-    let pres_ex_id = this.getPresExId();
+    let pres_ex_id = await this.getPresExId();
     let result = await presentProof.recordsVerifyPresentation(pres_ex_id);
     return result;
   }
@@ -152,7 +152,7 @@ class HLindyDeviceVC extends HLindyDidObject {
   // private
 
   async getDeviceCredDefId() {
-    let schema_id =this.getSchemaId(this.agent, {schema_name: 'device'});
+    let schema_id = await this.getSchemaId(this.agent, {schema_name: 'device'});
     return schema_id;
   }
 
@@ -168,7 +168,7 @@ class HLindyDeviceVC extends HLindyDidObject {
 
   async getPresExId() {
     let presentProof = new PresentProofV2(this.agent);
-    let requests = presentProof.records({ state: 'request-sent' });
+    let requests = await presentProof.records({ state: 'request-sent' });
     let latestPresEx = requests.results[0];
     return latestPresEx.pres_ex_id;
   }
