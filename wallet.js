@@ -88,15 +88,15 @@ class Wallet {
     return deviceVCList;
   }
 
-  async requestProof(tag) {
+  async requestProofDeviceVC(tag) {
     return await this.deviceVC.requestProof();
   }
 
-  async presentProof() {
+  async presentProofDeviceVC() {
     return await this.deviceVC.presentProof();
   }
 
-  async verifyDeviceVC() {
+  async verifyDeviceVCDeviceVC() {
     return await this.deviceVC.verify();
   }
 
