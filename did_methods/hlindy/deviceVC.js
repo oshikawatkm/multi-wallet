@@ -14,6 +14,9 @@ class HLindyDeviceVC extends HLindyDidObject {
     let credentials = await credential.getList({});
     let cred_def_id = await this.getDeviceCredDefId();
     let deviceCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
+    if (deviceCredentials.length == 0){
+      deviceCredentials = credentials.results.filter(credential => credential.indexOf('device') == true)
+    }
     return deviceCredentials;
   }
 
@@ -162,14 +165,15 @@ class HLindyDeviceVC extends HLindyDidObject {
   }
 
   async getLatestCred() {
-    let credenials = this.getCredList();
+    let credenials = await this.getCredList();
     return credenials[0];
   }
 
   async getPresExId() {
     let presentProof = new PresentProofV2(this.agent);
-    let requests = await presentProof.records({ state: 'request-sent' });
-    let latestPresEx = requests.results[0];
+    let presExs = await presentProof.records({ state: 'request-received' });
+    let presEx = presExs.results.results.filter(presEx => presEx.state == "request-received")
+    let latestPresEx = presEx[0];
     return latestPresEx.pres_ex_id;
   }
 }
