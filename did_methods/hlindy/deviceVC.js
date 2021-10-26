@@ -113,7 +113,7 @@ class HLindyDeviceVC extends HLindyDidObject {
     let presentProof = new PresentProofV2(this.agent);
     let credential = await this.getLatestCred();
     let cred_id = credential.referent;
-    let pres_ex_id = await this.getPresExId();
+    let pres_ex_id = await this.getPresExId('request-received');
 
     let presentProofBody = {
       indy: {
@@ -147,7 +147,7 @@ class HLindyDeviceVC extends HLindyDidObject {
 
   async verify() {
     let presentProof = new PresentProofV2(this.agent);
-    let pres_ex_id = await this.getPresExId();
+    let pres_ex_id = await this.getPresExId('presentation-received');
     let result = await presentProof.recordsVerifyPresentation(pres_ex_id);
     return result;
   }
@@ -169,10 +169,10 @@ class HLindyDeviceVC extends HLindyDidObject {
     return credenials[0];
   }
 
-  async getPresExId() {
+  async getPresExId(status_filter) {
     let presentProof = new PresentProofV2(this.agent);
-    let presExs = await presentProof.records({ state: 'request-received' });
-    let presEx = presExs.results.results.filter(presEx => presEx.state == "request-received")
+    let presExs = await presentProof.records({ state: status_filter });
+    let presEx = presExs.results.results.filter(presEx => presEx.state == status_filter)
     let latestPresEx = presEx[0];
     return latestPresEx.pres_ex_id;
   }
