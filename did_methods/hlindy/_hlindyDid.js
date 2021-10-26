@@ -69,6 +69,14 @@ class HLindyDidObject {
     let endpoint = await connection.endpoints(connection_id);
     return endpoint.result.their_endpoint;
   }
+
+  async getCredId() {
+
+  }
+
+  async getPresExId() {
+    
+  } 
 }
 
 module.exports.HLindyDidObject = HLindyDidObject;

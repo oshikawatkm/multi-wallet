@@ -13,9 +13,22 @@ class AccessVCMethod {
     return this.vc.getList();
   }
   
-  async issue(holderDid, endpointUrl, registerAt) {
-    return this.vc.issue(holderDid, name, endpointUrl, registerAt);
+  async issue(holderDid, endpointUrl) {
+    return this.vc.issue(holderDid, name, endpointUrl);
   }
+  
+  async send(
+    tag,
+    serviceEndpoint, 
+    description
+  ) {
+    return this.vc.send(
+      tag, 
+      serviceEndpoint, 
+      description
+    );
+  };
+
 
   async verify() {
     return this.vc.verify();

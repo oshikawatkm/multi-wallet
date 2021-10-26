@@ -9,7 +9,7 @@ class HLindyAccessVC extends HLindyDidObject {
   }
 
 
-  async send(tag, endpointUrl, registerAt){
+  async send(tag, endpointUrl){
     let did = await this.getDid();
     let connection_id = await this.getConnectionIdByTag(tag);
     let issueCredential = new IssueCredentialV2(this.agent);
@@ -25,7 +25,7 @@ class HLindyAccessVC extends HLindyDidObject {
         attributes: [
           { name: "did", value: did },
           { name: "endpointUrl", value: endpointUrl },
-          { name: "registerAt", value: registerAt }
+          { name: "registerAt", value: Date.now().toString() }
         ]
       },
       filter: {

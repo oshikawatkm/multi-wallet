@@ -1,25 +1,36 @@
-const { Agent, PresentProofV2, Credential, IssueCredentialV2 } = require("indy-request-js");
+const { PresentProofV2, Credential, IssueCredentialV2 } = require("indy-request-js");
 const { HLindyDidObject } = require("./_hlindyDid");
-const url = require('url')
 
 class HLindyDeviceVC extends HLindyDidObject {
 
-  async get() {
-    let credential = new Credential(this.agent);
-    return await credential.getList({});
+  async getCred({ name, serviceEndpoint, registerAt }) {
+    let credentials = this.getCredList()
+    if (name) {
+      credentials = credentials.filter(credential => credential.name == name)
+    }
+    if (serviceEndpoint) {
+      credentials = credentials.filter(credential => credential.serviceEndpoint == serviceEndpoint)
+    }
+    if (registerAt) {
+      credentials = credentials.filter(credential => credential.registerAt == registerAt)
+    }
+    return await credentials[0];
   }
 
-  async send(
-    tag,
-    serviceEndpoint, 
-    description, 
-    registerAt
-  ){
+  async getCredList() {
+    let credential = new Credential(this.agent);
+    let credentials = await credential.getList({});
+    let cred_def_id = await this.getDeviceCredDefId();
+    let deviceCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
+    return deviceCredentials;
+  }
+
+  async send(tag, serviceEndpoint, description){
     let did = await this.getDid();
     let connection_id = await this.getConnectionIdByTag(tag);
     let issueCredential = new IssueCredentialV2(this.agent);
-    let schema_id = await this.getSchemaId(this.agent, {schema_name: 'device'});
-    let cred_def_id = await this.getCredDefId(this.agent, {schema_name: 'device'});
+    let schema_id = await this.getDeviceCredDefId();
+    let cred_def_id = await this.getDeviceCredDefId();
 
     let body = {
       auto_remove: true,
@@ -32,7 +43,7 @@ class HLindyDeviceVC extends HLindyDidObject {
           { name: "name", value: tag },
           { name: "serviceEndpoint", value: serviceEndpoint },
           { name: "description", value: description },
-          { name: "registerAt", value: registerAt }
+          { name: "registerAt", value: Date.now().toString() }
         ]
       },
       filter: {
@@ -50,14 +61,6 @@ class HLindyDeviceVC extends HLindyDidObject {
     return await issueCredential.send(body)
   }
 
-  async getList() {
-    let credential = new Credential(this.agent);
-    let credentials = await credential.getList({});
-    let cred_def_id = await this.getDeviceCredDefId();
-    let deviceCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
-    return deviceCredentials;
-  }
-
   async delete() {
     let credential = new Credential(this.agent);
     let result = credential.delete({});
@@ -67,58 +70,117 @@ class HLindyDeviceVC extends HLindyDidObject {
   async requestProof(tag) {
     let presentProof = new PresentProofV2(this.agent);
     let connection_id = await this.getConnectionIdByTag(tag);
-    let cred_def_id = await this.getCredDefId(this.agent, {schema_name: 'device'});
+    let cred_def_id = await this.getDeviceCredDefId();
 
     let proofRequestBody = {
-        connection_id,
-        presentation_request: {
-          indy: {
-            name: "Proof Request",
-            version: "1.0",
-            requested_attributes: {
-              "0_did_uuid": {
-                name: "did",
-                restrictions: [{
-                  cred_def_id
-                }],
-              },
-              "0_name_uuid": {
-                name: "name",
-                restrictions: [{
-                  cred_def_id
-                }],
-              },
-              "0_serviceEndpoint_uuid": {
-                name: "serviceEndpoint",
-                restrictions: [{
-                  cred_def_id
-                }],
-              },
-              "0_registerAt_uuid": {
-                name: "registerAt",
-                restrictions: [{
-                  cred_def_id
-                }],
-              },
-              "0_self_attested_things_uuid": {
-                name: "self_attested_thing"
-              },
-              requested_predicates: {}
-            }
-          }
+      comment: "device prorf request",
+      trace: false,
+      connection_id,
+      presentation_request: {
+        indy: {
+          name: "Proof Request",
+          version: "1.0",
+          requested_attributes: {
+            "0_did_uuid": {
+              name: "did",
+              restrictions: [{
+                cred_def_id
+              }],
+            },
+            "0_name_uuid": {
+              name: "name",
+              restrictions: [{
+                cred_def_id
+              }],
+            },
+            "0_serviceEndpoint_uuid": {
+              name: "serviceEndpoint",
+              restrictions: [{
+                cred_def_id
+              }],
+            },
+            "0_registerAt_uuid": {
+              name: "registerAt",
+              restrictions: [{
+                cred_def_id
+              }],
+            },
+          },
+          requested_predicates: {}
         }
-      };
+      }
+    };
 
     let result = await presentProof.sendRequest(proofRequestBody);
     return result;
   }
 
   async presentProof(){
-    return;
+    let presentProof = new PresentProofV2(this.agent);
+    let credential = this.getLatestCred();
+    let cred_id = credential.referent;
+    let pres_ex_id = this.getPresExId();
+
+    let presentProofBody = {
+      indy: {
+        requested_attributes: {
+          "0_did_uuid": {
+            cred_id,
+            revealed: true
+          },
+          "0_name_uuid": {
+            cred_id,
+            revealed: true
+          },
+          "0_serviceEndpoint_uuid": {
+            cred_id,
+            revealed: true
+          },
+          "0_registerAt_uuid": {
+            cred_id,
+            revealed: true
+          }
+        },
+        requested_predicates: {},
+        self_attested_attributes: {},
+        trace: false
+      },
+      trace: true
+    }
+    
+    let result = await presentProof.recordsSendPresentation(pres_ex_id, presentProofBody);
+    return result;
   }
 
   async verify() {
-    return;
+    let presentProof = new PresentProofV2(this.agent);
+    let pres_ex_id = this.getPresExId();
+    let result = await presentProof.recordsVerifyPresentation(pres_ex_id);
+    return result;
+  }
+
+  // private
+
+  async getDeviceCredDefId() {
+    let schema_id =this.getSchemaId(this.agent, {schema_name: 'device'});
+    return schema_id;
+  }
+
+  async getDeviceCredDefId() {
+    let cred_def_id = await this.getCredDefId(this.agent, {schema_name: 'device'});
+    return cred_def_id;
+  }
+
+  async getLatestCred() {
+    let credenials = this.getCredList();
+    return credenials[0];
+  }
+
+  async getPresExId() {
+    let presentProof = new PresentProofV2(this.agent);
+    let requests = presentProof.records({ state: 'request-sent' });
+    let latestPresEx = requests.results[0];
+    return latestPresEx.pres_ex_id;
   }
 }
 
