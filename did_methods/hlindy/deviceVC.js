@@ -15,7 +15,7 @@ class HLindyDeviceVC extends HLindyDidObject {
     let cred_def_id = await this.getDeviceCredDefId();
     let deviceCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
     if (deviceCredentials.length == 0){
-      deviceCredentials = credentials.results.filter(credential => credential.cred_def_id.indexOf('device') == true)
+      deviceCredentials = credentials.results.filter(credential => credential.cred_def_id.includes('device') == true)
     }
     return deviceCredentials;
   }
