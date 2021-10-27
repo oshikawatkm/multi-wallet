@@ -56,9 +56,9 @@ class HLindyDeviceVC extends HLindyDidObject {
     return await issueCredential.send(body)
   }
 
-  async requestProof(tag) {
+  async requestProof(did) {
     let presentProof = new PresentProofV2(this.agent);
-    let connection_id = await this.getConnectionIdByTag(tag);
+    let connection_id = await this.getConnectionIdByDid(did);
     let cred_def_id = await this.getDeviceCredDefId();
 
     let proofRequestBody = {

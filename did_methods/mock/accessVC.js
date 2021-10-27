@@ -41,6 +41,7 @@ class MockAccessVC {
   async verify() {
     return;
   }
+
 }
 
 module.exports.MockAccessVC = MockAccessVC;

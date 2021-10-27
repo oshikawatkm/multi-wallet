@@ -13,10 +13,6 @@ class AccessVCMethod {
     return this.vc.getList();
   }
   
-  async issue(holderDid, endpointUrl) {
-    return this.vc.issue(holderDid, name, endpointUrl);
-  }
-  
   async send(
     tag,
     serviceEndpoint, 
@@ -34,8 +30,12 @@ class AccessVCMethod {
     return this.vc.verify();
   }
 
-  async presentProof(params) {
-    return this.vc.presentProof(params);
+  async requestProof(did) {
+    return this.vc.requestProof(did);
+  }
+
+  async presentProof() {
+    return this.vc.presentProof();
   }
 
   async get(did) {
