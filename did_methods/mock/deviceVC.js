@@ -7,7 +7,7 @@ class MockDeviceVC {
         name: "camera",
         description: "This is test",
         serviceEndpoint: "http://localhost:6000",
-        registerAt: "1634880668181"
+        registerAt: "1635341222291"
       }
     return deviceCredential;
   }
@@ -19,14 +19,14 @@ class MockDeviceVC {
         name: "camera",
         description: "This is test",
         serviceEndpoint: "http://localhost:6000",
-        registerAt: "1634880668181"
+        registerAt: "1635341222291"
       },
       {
         did: "DzdL98985yfEFKD2YsgzRc",
         name: "camera2",
         description: "This is test2",
         serviceEndpoint: "http://localhost:6666",
-        registerAt: "1634880668181"
+        registerAt: "1635341222291"
       }
     ]
     return deviceCredentials;

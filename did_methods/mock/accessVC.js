@@ -5,7 +5,7 @@ class MockAccessVC {
     let deviceCredential = {
         did: "AzdL98985yfEFKD2YsgzRc",
         endpointUrl: "http://localhost:6000",
-        registerAt: "1634880668181"
+        registerAt: "1635341222291"
       }
     return deviceCredential;
   }
@@ -15,12 +15,12 @@ class MockAccessVC {
       {
         did: "AzdL98985yfEFKD2YsgzRc",
         endpointUrl: "http://localhost:6000",
-        registerAt: "1634880668181"
+        registerAt: "1635341222291"
       },
       {
         did: "BzdL98985yfEFKD2YsgzRc",
         endpointUrl: "http://localhost:6666",
-        registerAt: "1634880668181"
+        registerAt: "1635341222291"
       }
     ]
     return deviceCredentials;
