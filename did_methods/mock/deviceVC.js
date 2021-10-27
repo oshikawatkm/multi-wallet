@@ -1,7 +1,7 @@
 
 class MockDeviceVC {
 
-  async getCred(did) {
+  async get(did) {
     let deviceCredential = {
         did: "CzdL98985yfEFKD2YsgzRc",
         name: "camera",
@@ -12,7 +12,7 @@ class MockDeviceVC {
     return deviceCredential;
   }
 
-  async getCredList() {
+  async getList() {
     let deviceCredentials = [
       {
         did: "CzdL98985yfEFKD2YsgzRc",
