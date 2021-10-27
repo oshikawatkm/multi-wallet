@@ -24,7 +24,7 @@ class HLindyDeviceVC extends HLindyDidObject {
     let did = await this.getDid();
     let connection_id = await this.getConnectionIdByTag(tag);
     let issueCredential = new IssueCredentialV2(this.agent);
-    let schema_id = await this.getDeviceCredDefId();
+    let schema_id = await this.getDeviceSchemaId();
     let cred_def_id = await this.getDeviceCredDefId();
 
     let body = {
@@ -56,19 +56,13 @@ class HLindyDeviceVC extends HLindyDidObject {
     return await issueCredential.send(body)
   }
 
-  async delete() {
-    let credential = new Credential(this.agent);
-    let result = credential.delete({});
-    return result;
-  }
-
   async requestProof(tag) {
     let presentProof = new PresentProofV2(this.agent);
     let connection_id = await this.getConnectionIdByTag(tag);
     let cred_def_id = await this.getDeviceCredDefId();
 
     let proofRequestBody = {
-      comment: "device prorf request",
+      comment: "device proof request",
       trace: false,
       connection_id,
       presentation_request: {
@@ -152,9 +146,16 @@ class HLindyDeviceVC extends HLindyDidObject {
     return result;
   }
 
+  async delete() {
+    let credential = new Credential(this.agent);
+    let result = credential.delete({});
+    return result;
+  }
+
+
   // private
 
-  async getDeviceCredDefId() {
+  async getDeviceSchemaId() {
     let schema_id = await this.getSchemaId(this.agent, {schema_name: 'device'});
     return schema_id;
   }

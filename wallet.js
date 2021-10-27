@@ -15,14 +15,9 @@ class Wallet {
     this.accessVC = new AccessVCMethod(didMethod, host, port);
     this.deviceVC = new DeviceVCMethod(didMethod, host, port);
     this.streamVC = new StreamVCMethod(didMethod, host, port);
-    // this.messageVC = new MessageVCMethod(didMethod, host, port);
   }
 
-  async init() {
-
-  }
-
-  // DID Method
+// ======== START: DID Interfaces ========
   async getDids(){
     return await this.did.getList();
   }
@@ -54,28 +49,16 @@ class Wallet {
   async setDidEndpoint(did, endpoint, endpointType) {
     return await this.did.setDidEndpoint(did, endpoint, endpointType);
   }
+// ======== END: DID Interfaces ========
 
-  async issueDeviceVC(issuerDid, name, serviceEndpoint, description) {
-    return await this.deviceVC.issue(issuerDid, name, serviceEndpoint, description);
-  }
 
+
+// ======== START: Device VC Interfaces ========
   async sendDeviceVC(tag, serviceEndpoint, description) {
     return await this.deviceVC.send(
       tag,
       serviceEndpoint, 
       description,);
-  }
-
-  async requestProofDeviceVC(tag){
-    return await this.deviceVC.requestProof(tag);
-  }
-
-  async presentProofDeviceVC(){
-    return await this.deviceVC.presentProof();
-  }
-
-  async verifyProofDeviceVC(){
-    return await this.deviceVC.verify();
   }
 
   async getDeviceVC(did){
@@ -103,7 +86,49 @@ class Wallet {
   async deleteDeviceVC() {
     return await this.deviceVC.delete();
   }
+// ======== EHD: Device VC Interfaces ========
 
+
+
+// ======== Start: Access VC Interfaces ========
+  async sendAccessVC(holderDid, endpointUrl) {
+    return await this.messageVC.issue(holderDid, endpointUrl);
+  }
+
+  async getAccessVCList(){
+    let accessVCList = await this.accessVC.getList();
+    return accessVCList;
+  }
+
+  async getAccessVC(did){
+    let accessVC = await this.accessVC.get(did);
+    return accessVC;
+  }
+
+  async requestProofAccessVC(tag) {
+    return await this.accessVC.requestProof();
+  }
+
+  async presentProofAccessVC() {
+    return await this.accessVC.presentProof();
+  }
+
+  async verifyAccessVC() {
+    return await this.accessVC.verify();
+  }
+
+  async getAccessVCRequestProofs() {
+    return await this.accessVC.getRequestProofs()
+  }
+
+  async deleteAccessVC() {
+    return await this.accessVC.delete();
+  }
+// ======== END: Access VC Interfaces ========
+
+
+
+// ======== START: Stream VC Interfaces ========
   async issueStreamVC(
     issuerDid, 
     connectionId, 
@@ -121,11 +146,7 @@ class Wallet {
       updatedAt
     );
   }
-
-  async getStreamVCSchema(param) {
   
-  }
-
   async getStreamVCList(params){
     let streamVCList = await this.streamVC.getList();
     return streamVCList;
@@ -138,24 +159,7 @@ class Wallet {
   async deleteStreamVC() {
     return await this.streamVC.delete();
   }
-
-
-  async sendAccessVC(holderDid, endpointUrl) {
-    return await this.messageVC.issue(holderDid, endpointUrl);
-  }
-
-  async getAccessVCList(){
-    let accessVCList = await this.accessVC.getList();
-    return accessVCList;
-  }
-
-
-  async getAccessVC(did){
-    let accessVC = await this.accessVC.get(did);
-    return accessVC;
-  }
-
-
+//======== END: Stream VC Interfaces ========
 }
 
 module.exports.Wallet = Wallet;
