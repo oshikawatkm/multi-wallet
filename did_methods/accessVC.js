@@ -8,11 +8,15 @@ class AccessVCMethod {
   constructor(didMethod, host, port) {
     this.vc = this.load_vc_method(didMethod, host, port);
   }
-
+  
   async getList() {
-    return this.vc.getList();
+    return this.vc.getCredList();
   }
   
+  async get(did) {
+    return this.vc.getCred(did);
+  }
+
   async send(
     tag,
     serviceEndpoint, 
@@ -36,10 +40,6 @@ class AccessVCMethod {
 
   async presentProof() {
     return this.vc.presentProof();
-  }
-
-  async get(did) {
-    return this.vc.get(did);
   }
 
   async delete() {
