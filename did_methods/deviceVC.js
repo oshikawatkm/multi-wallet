@@ -10,11 +10,11 @@ class DeviceVCMethod {
   }
 
   async get(did) {
-    return this.vc.getCred(did);
+    return this.vc.get(did);
   }
 
   async getList() {
-    return this.vc.getCredList();
+    return this.vc.getList();
   }
 
   async send(tag, serviceEndpoint, description) {
