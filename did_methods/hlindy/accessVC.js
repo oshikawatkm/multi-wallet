@@ -31,7 +31,7 @@ class HLindyAccessVC extends HLindyDidObject {
         attributes: [
           { name: "did", value: did },
           { name: "endpointUrl", value: endpointUrl },
-          { name: "registerAt", value: Date.now().toString() }
+          { name: "registerAt", value: new Date() }
         ]
       },
       filter: {

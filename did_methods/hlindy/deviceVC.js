@@ -38,7 +38,7 @@ class HLindyDeviceVC extends HLindyDidObject {
           { name: "name", value: tag },
           { name: "serviceEndpoint", value: serviceEndpoint },
           { name: "description", value: description },
-          { name: "registerAt", value: Date.now().toString() }
+          { name: "registerAt", value: new Date() }
         ]
       },
       filter: {
