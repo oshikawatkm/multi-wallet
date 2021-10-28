@@ -10,11 +10,11 @@ class AccessVCMethod {
   }
   
   async getList() {
-    return this.vc.getList();
+    return this.vc.getCredList();
   }
   
   async get(did) {
-    return this.vc.get(did);
+    return this.vc.getCred(did);
   }
 
   async send(

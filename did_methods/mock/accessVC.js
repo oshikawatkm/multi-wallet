@@ -1,7 +1,7 @@
 
 
 class MockAccessVC {
-  async get(did) {
+  async getCred(did) {
     let deviceCredential = {
         did: "AzdL98985yfEFKD2YsgzRc",
         endpointUrl: "http://localhost:6000",
@@ -10,7 +10,7 @@ class MockAccessVC {
     return deviceCredential;
   }
 
-  async getList() {
+  async getCredList() {
     let deviceCredentials = [
       {
         did: "AzdL98985yfEFKD2YsgzRc",
