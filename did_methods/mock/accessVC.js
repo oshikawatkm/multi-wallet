@@ -34,11 +34,11 @@ class MockAccessVC {
     return;
   }
 
-  async presentProof() {
+  async presentProof(tag) {
     return;
   }
 
-  async verify() {
+  async verify(tag) {
     return;
   }
 

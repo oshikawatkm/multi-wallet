@@ -29,12 +29,12 @@ class DeviceVCMethod {
     return this.vc.requestProof(tag);
   }
 
-  async presentProof() {
-    return this.vc.presentProof();
+  async presentProof(tag) {
+    return this.vc.presentProof(tag);
   }
 
-  async verify() {
-    return this.vc.verify();
+  async verify(tag) {
+    return this.vc.verify(tag);
   }
 
   async delete() {

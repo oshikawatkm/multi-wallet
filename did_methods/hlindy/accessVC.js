@@ -90,11 +90,11 @@ class HLindyAccessVC extends HLindyDidObject {
     return result;
   }
 
-  async presentProof(){
+  async presentProof(tag){
     let presentProof = new PresentProofV2(this.agent);
     let credential = await this.getLatestCred();
     let cred_id = credential.referent;
-    let pres_ex_id = await this.getPresExId('request-received');
+    let pres_ex_id = await this.getPresExId(tag, 'request-received');
 
     let presentProofBody = {
       indy: {
@@ -122,9 +122,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return result;
   }
 
-  async verify() {
+  async verify(tag) {
     let presentProof = new PresentProofV2(this.agent);
-    let pres_ex_id = await this.getPresExId('presentation-received');
+    let pres_ex_id = await this.getPresExId(tag, 'presentation-received');
     let result = await presentProof.recordsVerifyPresentation(pres_ex_id);
     return result;
   }
@@ -152,9 +152,10 @@ class HLindyAccessVC extends HLindyDidObject {
     return credenials[0];
   }
 
-  async getPresExId(status_filter) {
+  async getPresExId(tag, status_filter) {
     let presentProof = new PresentProofV2(this.agent);
-    let presExs = await presentProof.records({ state: status_filter });
+    let connection_id = await this.getConnectionIdByTag(tag);
+    let presExs = await presentProof.records({ connection_id, state: status_filter });
     let presEx = presExs.results.results.filter(presEx => presEx.state == status_filter);
     let latestPresEx = presEx[0];
     return latestPresEx.pres_ex_id;
