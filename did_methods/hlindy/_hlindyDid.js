@@ -60,7 +60,7 @@ class HLindyDidObject {
 
   async getConnectionIdByTag(tag) {
     let connection = new Connection(this.agent);
-    let connectionList = await connection.getList({state: 'active', their_tag: tag});
+    let connectionList = await connection.getList({state: 'active', their_label: tag});
     return connectionList.results[0].connection_id;
   }
 

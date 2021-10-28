@@ -34,8 +34,8 @@ class AccessVCMethod {
     return this.vc.verify();
   }
 
-  async requestProof(did) {
-    return this.vc.requestProof(did);
+  async requestProof(tag) {
+    return this.vc.requestProof(tag);
   }
 
   async presentProof() {
