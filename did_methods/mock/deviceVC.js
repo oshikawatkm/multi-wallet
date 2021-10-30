@@ -37,7 +37,13 @@ class MockDeviceVC {
   }
 
   async requestProof(tag) {
-    return;
+    let requestProof = {
+        id: "84b7895a-9b1f-41e5-9321-ab87e35fa663",
+        state: "request-sent",
+        created_at: "2021-10-29 00:53:03.172835Z",
+        updated_at: "2021-10-29 00:53:03.172835Z"
+      }
+    return requestProof;
   }
 
   async presentProof(tag) {
@@ -46,6 +52,25 @@ class MockDeviceVC {
 
   async verify(tag) {
     return;
+  }
+
+
+  async getRequestProofs() {
+    let requestProofs = [
+      {
+        id: "84b7895a-9b1f-41e5-9321-ab87e35fa663",
+        state: "request-received",
+        created_at: "2021-10-29 00:53:03.172835Z",
+        updated_at: "2021-10-29 00:53:03.172835Z"
+      },
+      {
+        id: "11111111-1111-1111-1111-111111111111",
+        state: "request-received",
+        created_at: "2021-10-29 00:53:03.172835Z",
+        updated_at: "2021-10-29 00:53:03.172835Z"
+      }
+    ]
+    return requestProofs;
   }
 }
 

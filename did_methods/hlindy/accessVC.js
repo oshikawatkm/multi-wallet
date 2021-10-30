@@ -60,7 +60,7 @@ class HLindyAccessVC extends HLindyDidObject {
       connection_id,
       presentation_request: {
         indy: {
-          name: "Proof Request",
+          name: "accessVC",
           version: "1.0",
           requested_attributes: {
             "0_did_uuid": {
@@ -87,7 +87,17 @@ class HLindyAccessVC extends HLindyDidObject {
       }
     };
     let result = await presentProof.sendRequest(proofRequestBody);
-    return result;
+    let requestProofs = result.results.map(requestProof => {
+      if (requestProof.by_format.pres_request.indy.name == "accessVC") {
+        return {
+          id: requestProof.pres_ex_id,
+          state: requestProof.state,
+          created_at: requestProof.created_at,
+          updated_at: requestProof.updated_at
+        }
+      }
+    })
+    return requestProofs;
   }
 
   async presentProof(tag){
@@ -133,6 +143,22 @@ class HLindyAccessVC extends HLindyDidObject {
     let issueCredential = new IssueCredentialV2(this.agent);
     let credentials = await issueCredential.records({});
     return credentials.results;
+  }
+
+  async getRequestProofs() {
+    let presentProof = new PresentProofV2(this.agent);
+    let records = await presentProof.records({ role: 'prover' }) 
+    let requestProofs = records.results.map(requestProof => {
+      if (requestProof.by_format.pres_request.indy.name == "accessVC") {
+        return {
+          id: requestProof.pres_ex_id,
+          state: requestProof.state,
+          created_at: requestProof.created_at,
+          updated_at: requestProof.updated_at
+        }
+      }
+    })
+    return requestProofs;
   }
 
   // private

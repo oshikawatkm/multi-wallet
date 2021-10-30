@@ -46,6 +46,10 @@ class AccessVCMethod {
     return this.vc.delete();
   }
 
+  async getRequestProofs() {
+    return this.vc.getRequestProofs();
+  }
+
   // private
 
   load_vc_method(didMethod, host, port) {
