@@ -10,7 +10,7 @@ class WalletInfo {
     this.wallet = this.load_did_method(method, host, port);
   }
 
-  async getInfo() {
+  async getIdentifier() {
     return this.wallet.getInfo();
   }
 

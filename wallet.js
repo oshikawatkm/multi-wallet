@@ -15,6 +15,7 @@ class Wallet {
     this.accessVC = new AccessVCMethod(didMethod, host, port);
     this.deviceVC = new DeviceVCMethod(didMethod, host, port);
     this.streamVC = new StreamVCMethod(didMethod, host, port);
+    this.info = new WalletInfo(didMethod, host, port);
   }
 
 }
