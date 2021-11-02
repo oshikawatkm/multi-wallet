@@ -19,8 +19,8 @@ class HLindyAccessVC extends HLindyDidObject {
     let did = await this.getDid();
     let connection_id = await this.getConnectionIdByTag(tag);
     let issueCredential = new IssueCredentialV2(this.agent);
-    let schema_id = await this.getDeviceCredDefId();
-    let cred_def_id = await this.getDeviceCredDefId();
+    let schema_id = await this.getAccessSchemaId();
+    let cred_def_id = await this.getAccessCredDefId();
 
     let body = {
       auto_remove: true,
@@ -52,7 +52,7 @@ class HLindyAccessVC extends HLindyDidObject {
   async requestProof(tag) {
     let presentProof = new PresentProofV2(this.agent);
     let connection_id = await this.getConnectionIdByTag(tag);
-    let cred_def_id = await this.getDeviceCredDefId();
+    let cred_def_id = await this.getAccessCredDefId();
 
     let proofRequestBody = {
       comment: "access proof request",
@@ -163,7 +163,7 @@ class HLindyAccessVC extends HLindyDidObject {
 
   // private
 
-  async getAccessCredDefId() {
+  async getAccessSchemaId() {
     let schema_id = await this.getSchemaId(this.agent, {schema_name: 'access'});
     return schema_id;
   }
