@@ -30,24 +30,24 @@ class AccessVCMethod {
   };
 
 
-  async verify(tag) {
-    return this.vc.verify(tag);
+  async verify(did) {
+    return this.vc.verify(did);
   }
 
-  async requestProof(tag) {
-    return this.vc.requestProof(tag);
+  async requestProof(did) {
+    return this.vc.requestProof(did);
   }
 
-  async presentProof(tag) {
-    return this.vc.presentProof(tag);
+  async presentProof(did) {
+    return this.vc.presentProof(did);
   }
 
   async delete() {
     return this.vc.delete();
   }
 
-  async getRequestProofs() {
-    return this.vc.getRequestProofs();
+  async getRequestProof(did) {
+    return this.vc.getRequestProof(did);
   }
 
   // private
