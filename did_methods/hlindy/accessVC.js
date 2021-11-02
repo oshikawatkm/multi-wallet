@@ -49,9 +49,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return await issueCredential.send(body)
   }
 
-  async requestProof(tag) {
+  async requestProof(did) {
     let presentProof = new PresentProofV2(this.agent);
-    let connection_id = await this.getConnectionIdByTag(tag);
+    let connection_id = await this.getConnectionIdByDID(did);
     let cred_def_id = await this.getAccessCredDefId();
 
     let proofRequestBody = {
@@ -90,7 +90,6 @@ class HLindyAccessVC extends HLindyDidObject {
     let requestProofs = result.results.map(requestProof => {
       if (requestProof.by_format.pres_request.indy.name == "accessVC") {
         return {
-          id: requestProof.pres_ex_id,
           state: requestProof.state,
           created_at: requestProof.created_at,
           updated_at: requestProof.updated_at
@@ -100,11 +99,11 @@ class HLindyAccessVC extends HLindyDidObject {
     return requestProofs;
   }
 
-  async presentProof(tag){
+  async presentProof(did){
     let presentProof = new PresentProofV2(this.agent);
     let credential = await this.getLatestCred();
     let cred_id = credential.referent;
-    let pres_ex_id = await this.getPresExId(tag, 'request-received');
+    let pres_ex_id = await this.getPresExId(did, 'request-received');
 
     let presentProofBody = {
       indy: {
@@ -132,9 +131,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return result;
   }
 
-  async verify(tag) {
+  async verify(did) {
     let presentProof = new PresentProofV2(this.agent);
-    let pres_ex_id = await this.getPresExId(tag, 'presentation-received');
+    let pres_ex_id = await this.getPresExId(did, 'presentation-received');
     let result = await presentProof.recordsVerifyPresentation(pres_ex_id);
     return result;
   }
@@ -145,20 +144,17 @@ class HLindyAccessVC extends HLindyDidObject {
     return credentials.results;
   }
 
-  async getRequestProofs() {
+  async getRequestProof(did) {
     let presentProof = new PresentProofV2(this.agent);
-    let records = await presentProof.records({ role: 'prover' }) 
-    let requestProofs = records.results.map(requestProof => {
-      if (requestProof.by_format.pres_request.indy.name == "accessVC") {
-        return {
-          id: requestProof.pres_ex_id,
-          state: requestProof.state,
-          created_at: requestProof.created_at,
-          updated_at: requestProof.updated_at
-        }
-      }
-    })
-    return requestProofs;
+    let pres_ex_id = await this.getPresExId(did);
+    let record = await presentProof.record(pres_ex_id);
+
+    return {
+      verified: record.verified,
+      state: record.state,
+      created_at: record.created_at,
+      updated_at: record.updated_at
+    };
   }
 
   // private
@@ -178,9 +174,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return credenials[0];
   }
 
-  async getPresExId(tag, status_filter) {
+  async getPresExId(did, status_filter) {
     let presentProof = new PresentProofV2(this.agent);
-    let connection_id = await this.getConnectionIdByTag(tag);
+    let connection_id = await this.getConnectionIdByDid(did);
     let presExs = await presentProof.records({ connection_id, state: status_filter });
     let presEx = presExs.results.results.filter(presEx => presEx.state == status_filter);
     let latestPresEx = presEx[0];
