@@ -193,7 +193,7 @@ class HLindyAccessVC extends HLindyDidObject {
     let cred_def_id = await this.getAccessCredDefId();
     let accessCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
     if (accessCredentials.length == 0){
-      deviceCredentials = credentials.results.filter(credential => credential.cred_def_id.includes('access') == true)
+      accessCredentials = credentials.results.filter(credential => credential.cred_def_id.includes('access') == true)
     }
     return accessCredentials;
   }
