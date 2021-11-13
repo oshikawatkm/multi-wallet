@@ -11,7 +11,7 @@ class HLindyAccessVC extends HLindyDidObject {
 
   async getCredList() {
     let credentials = await this.getList();
-    credentialList = credentials.map(credential => credential.attrs)
+    let credentialList = credentials.map(credential => credential.attrs)
     return credentialList;
   }
 
