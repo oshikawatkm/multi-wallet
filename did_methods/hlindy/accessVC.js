@@ -30,6 +30,7 @@ class HLindyAccessVC extends HLindyDidObject {
         "@type":  "/issue-credential/2.0/credential-preview",
         attributes: [
           { name: "did", value: did },
+          { name: "name", value: tag },
           { name: "endpointUrl", value: endpointUrl },
           { name: "registerAt", value: new Date() }
         ]
@@ -42,7 +43,7 @@ class HLindyAccessVC extends HLindyDidObject {
           schema_version: "1.0",
           schema_issuer_did: did,
           schema_name: "access"
-        }
+        },
       },
     }
     console.log(JSON.stringify(body))
@@ -65,6 +66,12 @@ class HLindyAccessVC extends HLindyDidObject {
           requested_attributes: {
             "0_did_uuid": {
               name: "did",
+              restrictions: [{
+                cred_def_id
+              }],
+            },
+            "0_name_uuid": {
+              name: "name",
               restrictions: [{
                 cred_def_id
               }],
@@ -109,6 +116,10 @@ class HLindyAccessVC extends HLindyDidObject {
       indy: {
         requested_attributes: {
           "0_did_uuid": {
+            cred_id,
+            revealed: true
+          },
+          "0_name_uuid": {
             cred_id,
             revealed: true
           },
@@ -174,9 +185,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return credenials[0];
   }
 
-  async getPresExId(did, status_filter) {
+  async getPresExId(tag, status_filter) {
     let presentProof = new PresentProofV2(this.agent);
-    let connection_id = await this.getConnectionIdByDid(did);
+    let connection_id = await this.getConnectionIdByTag(tag);
     let presExs = await presentProof.records({ connection_id, state: status_filter });
     let presEx = presExs.results.results.filter(presEx => presEx.state == status_filter);
     let latestPresEx = presEx[0];
