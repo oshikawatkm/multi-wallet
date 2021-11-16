@@ -5,7 +5,11 @@ class HLindyAccessVC extends HLindyDidObject {
 
   async getCred(did) {
     let credentials = await this.getList()
+    console.log(333333)
+    console.log(credentials)
     credentials = credentials.filter(credential => credential.did == did)
+    console.log(44444)
+    console.log(credentials)
     return await credentials[0];
   }
 
@@ -197,11 +201,15 @@ class HLindyAccessVC extends HLindyDidObject {
   async getList() {
     let credential = new Credential(this.agent);
     let credentials = await credential.getList({});
+    console.log(1111)
+    console.log(credentials)
     let cred_def_id = await this.getAccessCredDefId();
     let accessCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
     if (accessCredentials.length == 0){
       accessCredentials = credentials.results.filter(credential => credential.cred_def_id.includes('access') == true)
     }
+    console.log(22222)
+    console.log(accessCredentials)
     return accessCredentials;
   }
 }
