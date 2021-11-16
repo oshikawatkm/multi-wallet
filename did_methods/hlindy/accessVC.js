@@ -7,7 +7,7 @@ class HLindyAccessVC extends HLindyDidObject {
     let credentials = await this.getList()
     console.log(333333)
     console.log(credentials)
-    credentials = credentials.filter(credential => credential.attrs.did == did)
+    credentials = credentials.attrs.filter(credential => credential.did == did)
     console.log(44444)
     console.log(credentials)
     return await credentials[0];
