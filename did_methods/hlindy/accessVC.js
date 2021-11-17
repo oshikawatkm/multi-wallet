@@ -5,11 +5,7 @@ class HLindyAccessVC extends HLindyDidObject {
 
   async getCred(did) {
     let credentials = await this.getList()
-    console.log(333333)
-    console.log(credentials)
     credentials = credentials.filter(credential => credential.attrs.did == did)
-    console.log(44444)
-    console.log(credentials)
     return await credentials[0].attrs;
   }
 
@@ -54,9 +50,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return await issueCredential.send(body)
   }
 
-  async requestProof(did) {
+  async requestProof(tag) {
     let presentProof = new PresentProofV2(this.agent);
-    let connection_id = await this.getConnectionIdByDID(did);
+    let connection_id = await this.getConnectionIdByTag(tag);
     let cred_def_id = await this.getAccessCredDefId();
 
     let proofRequestBody = {
@@ -159,9 +155,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return credentials.results;
   }
 
-  async getRequestProof(did) {
+  async getRequestProof(tag) {
     let presentProof = new PresentProofV2(this.agent);
-    let pres_ex_id = await this.getPresExId(did);
+    let pres_ex_id = await this.getPresExId(tag);
     let record = await presentProof.record(pres_ex_id);
 
     return {
@@ -192,6 +188,7 @@ class HLindyAccessVC extends HLindyDidObject {
   async getPresExId(tag, status_filter) {
     let presentProof = new PresentProofV2(this.agent);
     let connection_id = await this.getConnectionIdByTag(tag);
+    console.log(connection_id)
     let presExs = await presentProof.records({ connection_id, state: status_filter });
     let presEx = presExs.results.results.filter(presEx => presEx.state == status_filter);
     let latestPresEx = presEx[0];
@@ -201,15 +198,11 @@ class HLindyAccessVC extends HLindyDidObject {
   async getList() {
     let credential = new Credential(this.agent);
     let credentials = await credential.getList({});
-    console.log(1111)
-    console.log(credentials)
     let cred_def_id = await this.getAccessCredDefId();
     let accessCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
     if (accessCredentials.length == 0){
       accessCredentials = credentials.results.filter(credential => credential.cred_def_id.includes('access') == true)
     }
-    console.log(22222)
-    console.log(accessCredentials)
     return accessCredentials;
   }
 }
