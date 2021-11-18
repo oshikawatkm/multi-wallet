@@ -53,6 +53,10 @@ class HLindyDeviceVC extends HLindyDidObject {
       },
     }
     console.log(JSON.stringify(body))
+    const user = await User.create({
+    email,
+    password
+  });
     return await issueCredential.send(body)
   }
 

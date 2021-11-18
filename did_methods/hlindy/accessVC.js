@@ -1,5 +1,6 @@
 const { PresentProofV2, Credential, IssueCredentialV2 } = require("indy-request-js");
-const { HLindyDidObject } = require("./_hlindyDid")
+const { HLindyDidObject } = require("./_hlindyDid");
+const Wallet = require('../../models/HLindyWallet');
 
 class HLindyAccessVC extends HLindyDidObject {
 
@@ -10,9 +11,9 @@ class HLindyAccessVC extends HLindyDidObject {
   }
 
   async getCredList() {
-    let credentials = await this.getList();
-    let credentialList = credentials.map(credential => credential.attrs)
-    return credentialList;
+    await this.updateList();
+    let vcs = await Wallet.find();
+    return vcs;
   }
 
   async send(tag, endpointUrl){
@@ -47,7 +48,16 @@ class HLindyAccessVC extends HLindyDidObject {
       },
     }
     console.log(JSON.stringify(body))
-    return await issueCredential.send(body)
+    let response = await issueCredential.send(body)
+
+    const wallet = await Wallet.create({
+      did,
+      tag,
+      vc_id: response.result.cred_ex_id,
+      connection_id,
+      status: 'issued'
+    });
+    return await wallet;
   }
 
   async requestProof(tag) {
@@ -209,14 +219,23 @@ class HLindyAccessVC extends HLindyDidObject {
     return latestPresEx.pres_ex_id;
   }
 
-  async getList() {
+  async updateList() {
     let credential = new Credential(this.agent);
     let credentials = await credential.getList({});
     let cred_def_id = await this.getAccessCredDefId();
     let accessCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
-    if (accessCredentials.length == 0){
-      accessCredentials = credentials.results.filter(credential => credential.cred_def_id.includes('access') == true)
-    }
+
+    let vcs = await Wallet.find();
+    let newRecord = accessCredentials.filter( ({connection_id}) => !vcs.find(f => f.connection_id == connection_id) );
+    newRecord.forEach(async (record) => {
+          const wallet = await Wallet.create({
+      did,
+      tag,
+      vc_id: response.result.cred_ex_id,
+      connection_id,
+      status: 'issued'
+    });
+    })
     return accessCredentials;
   }
 }
