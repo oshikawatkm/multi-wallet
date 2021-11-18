@@ -159,7 +159,7 @@ class HLindyAccessVC extends HLindyDidObject {
     let presentProof = new PresentProofV2(this.agent);
     let pres_ex_id = await this.getPresExId(tag, 'request-received');
     if(!pres_ex_id) {
-      pres_ex_id = await this.getPresExId(tag, 'presentation-received');
+      pres_ex_id = await this.getPresExId(tag, 'presentation-sent');
     }
     let record = await presentProof.record(pres_ex_id);
     console.log(record.results)
