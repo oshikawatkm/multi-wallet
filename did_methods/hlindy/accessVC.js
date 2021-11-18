@@ -200,12 +200,12 @@ class HLindyAccessVC extends HLindyDidObject {
     console.log(presExs.results.results)
     console.log(status_filter)
     let presEx = presExs.results.results.filter(presEx => presEx.state == status_filter);
+    if (presEx.length == 0) {
+      return;
+    }
     let latestPresEx = presEx[0];
     console.log(22222)
     console.log(latestPresEx)
-    if (presEx[0].length == 0) {
-      return;
-    }
     return latestPresEx.pres_ex_id;
   }
 
