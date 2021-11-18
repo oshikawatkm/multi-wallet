@@ -190,8 +190,12 @@ class HLindyAccessVC extends HLindyDidObject {
     let connection_id = await this.getConnectionIdByTag(tag);
     console.log(connection_id)
     let presExs = await presentProof.records({ connection_id, state: status_filter });
+    console.log(11111)
+    console.log(presExs)
     let presEx = presExs.results.results.filter(presEx => presEx.state == status_filter);
     let latestPresEx = presEx[0];
+    console.log(22222)
+    console.log(latestPresEx)
     return latestPresEx.pres_ex_id;
   }
 
