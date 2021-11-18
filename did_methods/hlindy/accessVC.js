@@ -106,11 +106,11 @@ class HLindyAccessVC extends HLindyDidObject {
     return requestProofs;
   }
 
-  async presentProof(did){
+  async presentProof(tag){
     let presentProof = new PresentProofV2(this.agent);
     let credential = await this.getLatestCred();
     let cred_id = credential.referent;
-    let pres_ex_id = await this.getPresExId(did, 'request-received');
+    let pres_ex_id = await this.getPresExId(tag, 'request-received');
 
     let presentProofBody = {
       indy: {
@@ -158,7 +158,9 @@ class HLindyAccessVC extends HLindyDidObject {
   async getRequestProof(tag) {
     let presentProof = new PresentProofV2(this.agent);
     let pres_ex_id = await this.getPresExId(tag, 'request-received');
-    console.log(pres_ex_id)
+    if(!pres_ex_id) {
+      pres_ex_id = await this.getPresExId(tag, 'presentation-received');
+    }
     let record = await presentProof.record(pres_ex_id);
     console.log(record.results)
     if (record.results.verified == undefined) {
