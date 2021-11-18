@@ -161,6 +161,9 @@ class HLindyAccessVC extends HLindyDidObject {
     console.log(pres_ex_id)
     let record = await presentProof.record(pres_ex_id);
     console.log(record.results)
+    if (record.results.verified == undefined) {
+      record.results.verified = false
+    }
     return {
       verified: record.results.verified,
       state: record.results.state,
