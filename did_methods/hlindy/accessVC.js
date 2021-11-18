@@ -203,6 +203,9 @@ class HLindyAccessVC extends HLindyDidObject {
     let latestPresEx = presEx[0];
     console.log(22222)
     console.log(latestPresEx)
+    if (presEx[0].length == 0) {
+      return;
+    }
     return latestPresEx.pres_ex_id;
   }
 
