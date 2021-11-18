@@ -160,12 +160,12 @@ class HLindyAccessVC extends HLindyDidObject {
     let pres_ex_id = await this.getPresExId(tag, 'request-received');
     console.log(pres_ex_id)
     let record = await presentProof.record(pres_ex_id);
-    console.log(record)
+    console.log(record.results)
     return {
-      verified: record.verified,
-      state: record.state,
-      created_at: record.created_at,
-      updated_at: record.updated_at
+      verified: record.results.verified,
+      state: record.results.state,
+      created_at: record.results.created_at,
+      updated_at: record.results.updated_at
     };
   }
 
