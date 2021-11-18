@@ -164,6 +164,9 @@ class HLindyAccessVC extends HLindyDidObject {
     if(!pres_ex_id) {
       pres_ex_id = await this.getPresExId(tag, 'presentation-received');
     }
+    if(!pres_ex_id) {
+      pres_ex_id = await this.getPresExId(tag, 'done');
+    }
     let record = await presentProof.record(pres_ex_id);
     console.log(record.results)
     if (record.results.verified == undefined) {
