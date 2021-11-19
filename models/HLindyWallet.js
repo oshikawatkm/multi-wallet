@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const HLindyWalletSchema = new mongoose.Schema({
   did: {
-    type: String
+    type: String,
+    unique: true,
   },
   tag: {
     type: String,
@@ -18,6 +19,15 @@ const HLindyWalletSchema = new mongoose.Schema({
   connection_id: {
     type: String,
     required: true,
+    unique: true
+  },
+  schema_id: {
+    type: String,
+    required: true,
+  },
+  cred_def_id: {
+    type: String,
+    required: true,
   },
   state: {
     type: String,
@@ -28,7 +38,7 @@ const HLindyWalletSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
     require: true
-  },
+  }
 })
 
 module.exports = mongoose.model('wallet', HLindyWalletSchema)

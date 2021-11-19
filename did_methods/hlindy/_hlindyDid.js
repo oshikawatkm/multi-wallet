@@ -1,6 +1,6 @@
 
 const { Agent, Wallet, Schema, CredentialDefinition, Connection } = require("indy-request-js");
-
+const HLindyWallet = require('../../models/HLindyWallet');
 
 class HLindyDidObject {
   constructor(host, port) {
@@ -53,9 +53,8 @@ class HLindyDidObject {
   }
 
   async getConnectionIdByDid(did) {
-    let connection = new Connection(this.agent);
-    let connectionList = await connection.getList({state: 'active', their_did: did});
-    return connectionList.results[0].connection_id;
+    let vc = await HLindyWallet.findOne({did: did})
+    return vc.connection_id;
   }
 
   async getConnectionIdByTag(tag) {

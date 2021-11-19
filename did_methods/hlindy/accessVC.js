@@ -1,18 +1,18 @@
 const { PresentProofV2, Credential, IssueCredentialV2 } = require("indy-request-js");
 const { HLindyDidObject } = require("./_hlindyDid");
-const Wallet = require('../../models/HLindyWallet');
+const HLindyWallet = require('../../models/HLindyWallet');
 
 class HLindyAccessVC extends HLindyDidObject {
 
   async getCred(did) {
-    let credentials = await this.getList()
-    credentials = credentials.filter(credential => credential.attrs.did == did)
-    return await credentials[0].attrs;
+    await this.updateList()
+    let vc = await HLindyWallet.findOne({did: did})
+    return vc;
   }
 
   async getCredList() {
     await this.updateList();
-    let vcs = await Wallet.find();
+    let vcs = await HLindyWallet.find();
     return vcs;
   }
 
@@ -60,15 +60,13 @@ class HLindyAccessVC extends HLindyDidObject {
     return await wallet;
   }
 
-  async requestProof(tag) {
-    let presentProof = new PresentProofV2(this.agent);
-    let connection_id = await this.getConnectionIdByTag(tag);
-    let cred_def_id = await this.getAccessCredDefId();
+  async requestProof(did) {
+    let vc = await HLindyWallet.findOne({did: did})
 
     let proofRequestBody = {
       comment: "access proof request",
       trace: false,
-      connection_id,
+      connection_id: vc.connection_id,
       presentation_request: {
         indy: {
           name: "accessVC",
@@ -77,25 +75,25 @@ class HLindyAccessVC extends HLindyDidObject {
             "0_did_uuid": {
               name: "did",
               restrictions: [{
-                cred_def_id
+                cred_def_id: vc.cred_def_id
               }],
             },
             "0_name_uuid": {
               name: "name",
               restrictions: [{
-                cred_def_id
+                cred_def_id: vc.cred_def_id
               }],
             },
             "0_endpointUrl_uuid": {
               name: "endpointUrl",
               restrictions: [{
-                cred_def_id
+                cred_def_id: vc.cred_def_id
               }],
             },
             "0_registerAt_uuid": {
               name: "registerAt",
               restrictions: [{
-                cred_def_id
+                cred_def_id: vc.cred_def_id
               }],
             },
           },
@@ -116,7 +114,7 @@ class HLindyAccessVC extends HLindyDidObject {
     return requestProofs;
   }
 
-  async presentProof(tag){
+  async presentProof(did){
     let presentProof = new PresentProofV2(this.agent);
     let credential = await this.getLatestCred();
     let cred_id = credential.referent;
@@ -165,22 +163,13 @@ class HLindyAccessVC extends HLindyDidObject {
     return credentials.results;
   }
 
-  async getRequestProof(tag) {
-    let presentProof = new PresentProofV2(this.agent);
-    let pres_ex_id = await this.getPresExId(tag, 'request-received');
-    if(!pres_ex_id) {
-      pres_ex_id = await this.getPresExId(tag, 'presentation-sent');
-    }
-    let record = await presentProof.record(pres_ex_id);
-    console.log(record.results)
-    if (record.results.verified == undefined) {
-      record.results.verified = false
-    }
+  async getRequestProof(did) {
+    let response = await HLindyWallet.findOne({did: did});
     return {
-      verified: record.results.verified,
-      state: record.results.state,
-      created_at: record.results.created_at,
-      updated_at: record.results.updated_at
+      verified: response.verified,
+      state: response.state,
+      created_at: response.created_at,
+      updated_at: response.updated_at
     };
   }
 
@@ -225,18 +214,31 @@ class HLindyAccessVC extends HLindyDidObject {
     let cred_def_id = await this.getAccessCredDefId();
     let accessCredentials = credentials.results.filter(credential => credential.cred_def_id == cred_def_id)
 
-    let vcs = await Wallet.find();
+    let vcs = await HLindyWallet.find();
     let newRecord = accessCredentials.filter( ({connection_id}) => !vcs.find(f => f.connection_id == connection_id) );
     newRecord.forEach(async (record) => {
-          const wallet = await Wallet.create({
-      did,
-      tag,
-      vc_id: response.result.cred_ex_id,
-      connection_id,
-      status: 'issued'
-    });
+      let presentProof = new PresentProofV2(this.agent);
+      let presentProof = await presentProof.record({connection_id: record.connection_id})
+      if (presentProof.results) {
+        await Wallet.create({
+          did,
+          tag,
+          vc_id: response.cred_ex_id,
+          pres_ex_id: presentProof.results.pres_ex_id,
+          connection_id,
+          state: response.state,
+          verified: presentProof.results.verified
+        });
+      } else {
+        await Wallet.create({
+          did,
+          tag,
+          vc_id: response.cred_ex_id,
+          connection_id,
+          state: response.state
+        });
+      }
     })
-    return accessCredentials;
   }
 }
 
