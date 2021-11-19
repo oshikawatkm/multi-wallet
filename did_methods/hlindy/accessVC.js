@@ -160,7 +160,9 @@ class HLindyAccessVC extends HLindyDidObject {
     let pres_ex_id = await this.getPresExId(tag, state);
     let record = await presentProof.record(pres_ex_id);
     console.log(record.results)
-    if (record.results.verified == undefined) {
+    if (record.results.state == 'done') {
+      record.results.verified = true
+    } else if (record.results.verified == undefined) {
       record.results.verified = false
     }
     return {
