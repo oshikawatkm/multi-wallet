@@ -191,20 +191,11 @@ class HLindyAccessVC extends HLindyDidObject {
   async getPresExId(tag, status_filter) {
     let presentProof = new PresentProofV2(this.agent);
     let connection_id = await this.getConnectionIdByTag(tag);
-    console.log(connection_id)
     let presExsResponse = await presentProof.records({ connection_id, state: status_filter });
-    let presExs = presExsResponse.results.results;
-    console.log(11111)
-    console.log(presExs)
-    console.log(status_filter)
-    let presEx = presExs.filter(presEx => presEx.state == status_filter);
-    if (presEx.length == 0) {
+    if (presExsResponse.results.results.length == 0) {
       return;
     }
-    let latestPresEx = presEx[0];
-    console.log(22222)
-    console.log(latestPresEx)
-    return latestPresEx.pres_ex_id;
+    return presExsResponse.results.results[0].pres_ex_id;
   }
 
   async getList() {
