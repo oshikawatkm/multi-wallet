@@ -155,9 +155,9 @@ class HLindyAccessVC extends HLindyDidObject {
     return credentials.results;
   }
 
-  async getRequestProof(tag) {
+  async getRequestProof(tag, state) {
     let presentProof = new PresentProofV2(this.agent);
-    let pres_ex_id = await this.getPresExId(tag);
+    let pres_ex_id = await this.getPresExId(tag, state);
     let record = await presentProof.record(pres_ex_id);
     console.log(record.results)
     if (record.results.verified == undefined) {

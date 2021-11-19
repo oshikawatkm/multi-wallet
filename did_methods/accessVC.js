@@ -46,8 +46,8 @@ class AccessVCMethod {
     return this.vc.delete();
   }
 
-  async getRequestProof(did) {
-    return this.vc.getRequestProof(did);
+  async getRequestProof(did, state) {
+    return this.vc.getRequestProof(did, state);
   }
 
   // private
